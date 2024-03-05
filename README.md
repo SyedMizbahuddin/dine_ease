@@ -36,10 +36,11 @@
 	6. Unit test cases
 
 7. Dependencies
-   1.spring-starter-web
-   2.Lombok
-   3.mysql connector
-   4.spring-data-jpa
-   5.spring-security
+ 	1. spring-starter-web
+	2. Lombok
+	3. mysql connector 
+	4. spring-data-jpa
+	5. spring-security
+
 
 	

@@ -35,12 +35,8 @@
 	5. Spring security
 	6. Unit test cases
 
-7. Dependencies
- 	1. spring-starter-web
-	2. Lombok
-	3. mysql connector 
-	4. spring-data-jpa
-	5. spring-security
-
+7. Future Enchancements
+   	1. Spring AOP
+   	2. 
 
 	

@@ -27,4 +27,12 @@
 		but owner can change it to unavailable
 	4. JWT based Authentication + Authorization
 
+6. Practices to be followed
+	1. REST
+	2. Git commit
+	3. SQL 
+	4. Spring Data JPA
+	5. Spring security
+	6. Unit test cases
+
 	

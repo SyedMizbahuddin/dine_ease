@@ -1,12 +1,14 @@
-1. Login/Signup User (Admin, Customer, Restaurant Owner)
+1. Login/Signup User 
+	1. Admin
+	2. Restaurant owner
+	3. Customer
+	4. JWT based Authentication + Authorization
 
 2. Restaurant Owner
 	1. Can create branches
-	2. At tables at each branch( city level for simplicity)
-	3. Add food to menu category at each branch
-	4. Availability of food at each branch
-	5. Availability of tables at each branch
-	6. View booked tables by customer
+	2. Add tables at each branch( city level for simplicity)
+	3. Add Dishes with price
+	4. View booked tables by customer
 
 3. Customer 
 	1. Search by city
@@ -18,14 +20,19 @@
 	1. View Restaurant tables and bookings
 	2. View Restaurant foods
 	3. View Customer bookings
-	4. Add Menu categories
+	4. Add food categories
+	5. Add Cities
+	6. Add Dishes
 
-5. Features
+5. Assumptions
 	1. Each slot is for 1 hour
 	2. Can book for only T + 1 day
-	3. By default it is available from opening to closing time,
-		but owner can change it to unavailable
-	4. JWT based Authentication + Authorization
+	3. One owner per restaurant? Yes
+	4. Owner has multiple Restaurants? Yes
+	5. User has Multiple roles? Yes
+	6. Different Menu at each branch? No
+	7. Availability at table level? No
+	8. Removal supported? No
 
 6. Practices to be followed
 	1. REST
@@ -34,5 +41,19 @@
 	4. Spring Data JPA
 	5. Spring security
 	6. Unit test cases
+
+7. Future Enhancements
+	1. Spring AOP
+	2. Caching
+
+Learning:
+	1. Normalization multiple branches for restaurant
+	2. Normalization food category to avoid multiple names
+	3. Creating DB from scratch
+	4. Designing DB
+	
+
+
+
 
 	

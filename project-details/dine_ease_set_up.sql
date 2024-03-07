@@ -18,27 +18,30 @@ CREATE TABLE IF NOT EXISTS users(
 
 CREATE TABLE IF NOT EXISTS roles(
 	id int NOT NULL AUTO_INCREMENT,
-    role varchar(20) NOT NULL,
+    role varchar(20) NOT NULL CHECK (role IN ('ROLE_ADMIN','ROLE_OWNER','ROLE_CUSTOMER')),
+    user_id int NOT NULL,
     
 	PRIMARY KEY (id),
-    UNIQUE (role)
-) ENGINE=InnoDB AUTO_INCREMENT=1;
-
-INSERT INTO roles(role) VALUES('ROLE_ADMIN'), ('ROLE_OWNER'), ('ROLE_CUSTOMER');
-
-
-CREATE TABLE IF NOT EXISTS user_roles(
-	user_id int NOT NULL,
-    role_id int NOT NULL,
-    
-    PRIMARY KEY (user_id, role_id),
-    
+    UNIQUE (role, user_id),
     FOREIGN KEY (user_id) REFERENCES users (id) 
-    ON DELETE CASCADE ON UPDATE NO ACTION,
-    
-    FOREIGN KEY (role_id) REFERENCES roles (id) 
-    ON DELETE CASCADE ON UPDATE NO ACTION
+	ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
+
+-- INSERT INTO roles(role) VALUES('ROLE_ADMIN'), ('ROLE_OWNER'), ('ROLE_CUSTOMER');
+
+
+-- CREATE TABLE IF NOT EXISTS user_roles(
+-- 	user_id int NOT NULL,
+--     role_id int NOT NULL,
+--     
+--     PRIMARY KEY (user_id, role_id),
+--     
+--     FOREIGN KEY (user_id) REFERENCES users (id) 
+--     ON DELETE CASCADE ON UPDATE NO ACTION,
+--     
+--     FOREIGN KEY (role_id) REFERENCES roles (id) 
+--     ON DELETE CASCADE ON UPDATE NO ACTION
+-- ) ENGINE=InnoDB AUTO_INCREMENT=1;
 
 
 CREATE TABLE IF NOT EXISTS restaurants(

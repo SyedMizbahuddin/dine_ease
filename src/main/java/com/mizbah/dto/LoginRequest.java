@@ -3,12 +3,8 @@ package com.mizbah.dto;
 import lombok.Data;
 
 @Data
-public class UserDto {
-
-	private Long id;
-
-	private String name;
+public class LoginRequest {
 
 	private String email;
-
+	private String password;
 }

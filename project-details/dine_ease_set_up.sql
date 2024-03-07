@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS users(
 
 CREATE TABLE IF NOT EXISTS roles(
 	id int NOT NULL AUTO_INCREMENT,
-    role varchar(20) NOT NULL CHECK (role IN ('ROLE_ADMIN','ROLE_OWNER','ROLE_CUSTOMER')),
+    role varchar(20) NOT NULL CHECK (role IN ('ADMIN','OWNER','CUSTOMER')),
     user_id int NOT NULL,
     
 	PRIMARY KEY (id),

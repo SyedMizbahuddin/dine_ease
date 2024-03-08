@@ -24,7 +24,8 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-		String[] public_url = { "/v3/api-docs/**", "/swagger-ui/**", "/v2/api-docs/**", "/swagger-resources/**" };
+		String[] public_url = { "/v3/api-docs/**", "/swagger-ui/**", "/v2/api-docs/**", "/swagger-resources/**",
+				"/error" };
 		http.csrf(csrf -> csrf.disable());
 
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**").permitAll()

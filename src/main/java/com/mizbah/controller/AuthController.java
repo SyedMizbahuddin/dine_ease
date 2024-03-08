@@ -11,7 +11,7 @@ import com.mizbah.dto.LoginRequest;
 import com.mizbah.dto.LoginResponse;
 import com.mizbah.dto.SignupRequest;
 import com.mizbah.dto.UserDto;
-import com.mizbah.service.auth.AuthService;
+import com.mizbah.service.interfaces.AuthService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;

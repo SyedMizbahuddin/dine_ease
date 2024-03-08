@@ -1,4 +1,4 @@
-package com.mizbah.service.auth;
+package com.mizbah.service;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +16,7 @@ import com.mizbah.entity.Role;
 import com.mizbah.entity.User;
 import com.mizbah.exception.DuplicateEntityFoundException;
 import com.mizbah.repository.UserRepository;
+import com.mizbah.service.interfaces.AuthService;
 import com.mizbah.util.ConversionUtil;
 
 import lombok.AllArgsConstructor;

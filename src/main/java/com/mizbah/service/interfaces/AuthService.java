@@ -1,4 +1,4 @@
-package com.mizbah.service.auth;
+package com.mizbah.service.interfaces;
 
 import com.mizbah.dto.LoginRequest;
 import com.mizbah.dto.LoginResponse;

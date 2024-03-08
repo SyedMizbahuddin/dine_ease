@@ -24,10 +24,11 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
+		String[] public_url = { "/v3/api-docs/**", "/swagger-ui/**", "/v2/api-docs/**", "/swagger-resources/**" };
 		http.csrf(csrf -> csrf.disable());
 
-		http.authorizeHttpRequests(
-				auth -> auth.requestMatchers("/api/v1/auth/**").permitAll().anyRequest().authenticated());
+		http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**").permitAll()
+				.requestMatchers(public_url).permitAll().anyRequest().authenticated());
 
 		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 

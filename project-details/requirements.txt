@@ -33,6 +33,7 @@
 	6. Different Menu at each branch? No
 	7. Availability at table level? No
 	8. Removal supported? No
+	9. 1 restaurant at each branch? yes
 
 6. Practices to be followed
 	1. REST
@@ -47,7 +48,7 @@
 	2. Caching
 
 Learning:
-	1. Normalization multiple branches for restaurant
+	1. Normalization multiple branches for restaurant using xNF
 	2. Normalization food category to avoid multiple names
 	3. Creating DB from scratch
 	4. Designing DB

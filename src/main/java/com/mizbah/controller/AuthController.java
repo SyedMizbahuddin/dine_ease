@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mizbah.dto.LoginRequest;
+import com.mizbah.dto.LoginResponse;
 import com.mizbah.dto.SignupRequest;
 import com.mizbah.dto.UserDto;
 import com.mizbah.service.auth.AuthService;
@@ -29,10 +30,10 @@ public class AuthController {
 		return new ResponseEntity<>(createdUser, HttpStatus.OK);
 	}
 
-	@PostMapping("/lgin")
-	ResponseEntity<UserDto> login(@RequestBody LoginRequest request) {
-		UserDto createdUser = authService.login(request);
-		return new ResponseEntity<>(createdUser, HttpStatus.OK);
+	@PostMapping("/login")
+	ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+		LoginResponse response = authService.login(request);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 }

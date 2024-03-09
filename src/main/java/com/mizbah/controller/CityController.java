@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +17,6 @@ import com.mizbah.dto.CityDto;
 import com.mizbah.entity.City;
 import com.mizbah.service.interfaces.CityService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.AllArgsConstructor;
 
 @RequestMapping("/api/v1/cities")
@@ -48,6 +48,7 @@ public class CityController {
 
 	@DeleteMapping("/{id}")
 	ResponseEntity<?> deleteCity(@PathVariable("id") long id) {
+		cityService.deleteCity(id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

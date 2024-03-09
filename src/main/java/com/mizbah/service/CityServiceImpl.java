@@ -13,7 +13,9 @@ import com.mizbah.util.ConversionUtil;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @AllArgsConstructor
 @Service
 public class CityServiceImpl implements CityService {
@@ -38,7 +40,6 @@ public class CityServiceImpl implements CityService {
 	public City createCity(CityDto cityRequest) {
 		City city = ConversionUtil.convert(cityRequest, City.class);
 		cityRepository.save(city);
-		// Handle Unique city Exception
 		return city;
 	}
 

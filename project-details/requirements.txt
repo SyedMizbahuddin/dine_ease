@@ -33,7 +33,9 @@
 	6. Different Menu at each branch? No
 	7. Availability at table level? No
 	8. Removal supported? No
-	9. 1 restaurant at each branch? yes
+	9. Restaurant has multiple branches in a city? No
+	10. An owner of an restaurant cannot update details of other restaurant? Obviously
+	11. Image or Blob ? 
 
 6. Practices to be followed
 	1. REST
@@ -42,6 +44,8 @@
 	4. Spring Data JPA
 	5. Spring security
 	6. Unit test cases
+	7. Validation: An owner cannot update details of other restaurant
+	8. Documentation
 
 7. Future Enhancements
 	1. Spring AOP

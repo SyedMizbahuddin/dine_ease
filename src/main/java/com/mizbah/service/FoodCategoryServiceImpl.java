@@ -62,6 +62,7 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
 		if (!foodCategoryRepository.existsById(id)) {
 			throw new EntityNotFoundException("FoodCategory not found with ID: " + id);
 		}
+		// dependency check to be made, CASCADE
 		foodCategoryRepository.deleteById(id);
 
 	}

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,13 +38,13 @@ public class FoodCategoryController {
 	}
 
 	@PostMapping
-	ResponseEntity<FoodCategory> createFoodCategory(@RequestBody FoodCategoryDto foodCategory) {
+	ResponseEntity<FoodCategory> createFoodCategory(@Validated @RequestBody FoodCategoryDto foodCategory) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(foodCategoryService.createFoodCategory(foodCategory));
 	}
 
 	@PutMapping("/{id}")
 	ResponseEntity<FoodCategory> updateFoodCategory(@PathVariable("id") long id,
-			@RequestBody FoodCategoryDto foodCategory) {
+			@Validated @RequestBody FoodCategoryDto foodCategory) {
 		return ResponseEntity.ok(foodCategoryService.updateFoodCategory(id, foodCategory));
 	}
 

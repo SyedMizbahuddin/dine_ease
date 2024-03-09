@@ -228,7 +228,7 @@ INSERT INTO dishes (name, category_id) VALUES
     ('Tandoori Roti', @rotiParathaCategoryId);
 
 
-CREATE TABLE IF NOT EXISTS tables(
+CREATE TABLE IF NOT EXISTS table_types(
 	id int NOT NULL AUTO_INCREMENT,
     chairs int NOT NULL,
     name varchar(45) NOT NULL,
@@ -237,7 +237,7 @@ CREATE TABLE IF NOT EXISTS tables(
     UNIQUE (name, chairs)
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
 
-INSERT INTO tables (chairs, name) VALUES 
+INSERT INTO table_types (chairs, name) VALUES 
 	(2, 'Standard Table'),
     (3, 'Standard Table'),
     (4, 'Standard Table'),
@@ -279,7 +279,7 @@ CREATE TABLE IF NOT EXISTS branch_tables(
     FOREIGN KEY (branch_id) REFERENCES branches (id) 
     ON DELETE CASCADE ON UPDATE NO ACTION,
     
-    FOREIGN KEY (table_id) REFERENCES tables (id) 
+    FOREIGN KEY (table_id) REFERENCES table_types (id) 
     ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
 

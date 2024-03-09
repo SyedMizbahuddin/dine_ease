@@ -1,6 +1,7 @@
 package com.mizbah.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -26,11 +27,11 @@ public class CityServiceImpl implements CityService {
 
 	@Override
 	public City getCityById(long id) {
-		City city = cityRepository.findById(id).get();
-		if (city == null) {
+		Optional<City> city = cityRepository.findById(id);
+		if (city.isEmpty()) {
 			throw new EntityNotFoundException("City not found with ID: " + id);
 		}
-		return city;
+		return city.get();
 	}
 
 	@Override

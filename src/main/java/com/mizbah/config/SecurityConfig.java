@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 import lombok.AllArgsConstructor;
 
@@ -20,6 +21,7 @@ public class SecurityConfig {
 
 	JwtAuthenticationFilter jwtAuthenticationFilter;
 	AuthenticationProvider authenticationProvider;
+	FilterChainExceptionHandler filterChainExceptionHandler;
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -35,6 +37,7 @@ public class SecurityConfig {
 
 		http.authenticationProvider(authenticationProvider);
 		http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(filterChainExceptionHandler, LogoutFilter.class);
 
 		return http.build();
 	}

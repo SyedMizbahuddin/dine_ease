@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.mizbah.entity.Role;
 import com.mizbah.entity.User;
+import com.mizbah.repository.RoleRepository;
 import com.mizbah.repository.UserRepository;
 
 import lombok.NoArgsConstructor;
@@ -23,6 +24,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	RoleRepository roleRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

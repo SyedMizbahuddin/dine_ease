@@ -52,6 +52,8 @@ Learning:
 	2. Normalization food category to avoid multiple names
 	3. Creating DB from scratch
 	4. Designing DB
+	5. ControllerAdvice does not handle filter errors, have to get it handled by first filter
+		and map it to Default Exception resolver
 	
 
 

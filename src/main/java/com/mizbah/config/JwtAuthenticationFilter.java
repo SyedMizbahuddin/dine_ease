@@ -27,6 +27,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
+		String requestUri = request.getRequestURI();
+
+		// Check if the request URI is for signup or login
+		if (requestUri.equals("/api/v1/auth/signup") || requestUri.equals("/api/v1/auth/login")) {
+			// Allow the filter chain to proceed without custom logic
+			filterChain.doFilter(request, response);
+			return;
+		}
+
 		final String authHeader = request.getHeader("Authorization");
 
 		if (authHeader == null || !authHeader.startsWith("Bearer ")) {

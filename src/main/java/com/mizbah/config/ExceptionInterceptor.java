@@ -36,7 +36,7 @@ public class ExceptionInterceptor {
 			errorMessage = "Invalid Value: " + fieldError.getRejectedValue() + " for Field: " + fieldError.getField();
 		}
 
-		ErrorResponse error = new ErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+		ErrorResponse error = new ErrorResponse(errorMessage, HttpStatus.BAD_REQUEST.value());
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.BAD_REQUEST);
 	}
 
@@ -52,11 +52,13 @@ public class ExceptionInterceptor {
 
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	@ResponseStatus(code = HttpStatus.CONFLICT)
-	public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+	public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
 
 		log.error("Got DataIntegrityViolationException");
-		ErrorResponse errorResponse = new ErrorResponse("Data integrity violation: " + ex.getMessage(),
+
+		ErrorResponse errorResponse = new ErrorResponse("Data integrity violation: " + e.getMessage(),
 				HttpStatus.CONFLICT.value());
+
 		return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
 	}
 

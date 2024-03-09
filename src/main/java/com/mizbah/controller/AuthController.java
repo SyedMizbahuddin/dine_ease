@@ -14,9 +14,7 @@ import com.mizbah.dto.UserDto;
 import com.mizbah.service.interfaces.AuthService;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
-@Log4j2
 @AllArgsConstructor
 @RequestMapping("/api/v1/auth")
 @RestController

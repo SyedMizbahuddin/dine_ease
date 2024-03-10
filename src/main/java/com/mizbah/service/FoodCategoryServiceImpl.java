@@ -5,11 +5,11 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.mizbah.adapter.FoodCategoryAdapter;
 import com.mizbah.dto.FoodCategoryDto;
 import com.mizbah.entity.FoodCategory;
 import com.mizbah.repository.FoodCategoryRepository;
 import com.mizbah.service.interfaces.FoodCategoryService;
-import com.mizbah.util.ConversionUtil;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -21,39 +21,40 @@ import lombok.extern.log4j.Log4j2;
 public class FoodCategoryServiceImpl implements FoodCategoryService {
 
 	FoodCategoryRepository foodCategoryRepository;
+	FoodCategoryAdapter foodCategoryAdapter;
 
 	@Override
-	public List<FoodCategory> getAllFoodCategories() {
-		return foodCategoryRepository.findAll();
+	public List<FoodCategoryDto> getAllFoodCategories() {
+		return foodCategoryAdapter.toDto(foodCategoryRepository.findAll());
 	}
 
 	@Override
-	public FoodCategory getFoodCategoryById(long id) {
+	public FoodCategoryDto getFoodCategoryById(long id) {
 		Optional<FoodCategory> foodCategory = foodCategoryRepository.findById(id);
 		if (foodCategory.isEmpty()) {
 			throw new EntityNotFoundException("FoodCategory not found with ID: " + id);
 		}
-		return foodCategory.get();
+		return foodCategoryAdapter.toDto(foodCategory.get());
 	}
 
 	@Override
-	public FoodCategory createFoodCategory(FoodCategoryDto foodCategoryRequest) {
-		FoodCategory foodCategory = ConversionUtil.convert(foodCategoryRequest, FoodCategory.class);
+	public FoodCategoryDto createFoodCategory(FoodCategoryDto foodCategoryRequest) {
+		FoodCategory foodCategory = foodCategoryAdapter.toEntity(foodCategoryRequest);
 		foodCategoryRepository.save(foodCategory);
-		return foodCategory;
+		return foodCategoryAdapter.toDto(foodCategory);
 	}
 
 	@Override
-	public FoodCategory updateFoodCategory(long id, FoodCategoryDto foodCategoryRequest) {
+	public FoodCategoryDto updateFoodCategory(long id, FoodCategoryDto foodCategoryRequest) {
 
 		if (!foodCategoryRepository.existsById(id)) {
 			throw new EntityNotFoundException("FoodCategory not found with ID: " + id);
 		}
 
-		FoodCategory foodCategory = ConversionUtil.convert(foodCategoryRequest, FoodCategory.class);
+		FoodCategory foodCategory = foodCategoryAdapter.toEntity(foodCategoryRequest);
 		foodCategory.setId(id);
 		foodCategoryRepository.save(foodCategory);
-		return foodCategory;
+		return foodCategoryAdapter.toDto(foodCategory);
 
 	}
 

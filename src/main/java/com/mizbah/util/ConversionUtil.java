@@ -14,8 +14,8 @@ public class ConversionUtil {
 		return dozerMapper;
 	}
 
-	public static <T> T convert(Object source, Class<T> destinationClass) {
-		T destination = dozerMapper.map(source, destinationClass);
-		return destination;
-	}
+//	public static <T> T convert(Object source, Class<T> destinationClass) {
+//		T destination = dozerMapper.map(source, destinationClass);
+//		return destination;
+//	}
 }

@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.mizbah.dto.ErrorResponse;
+import com.mizbah.exception.DependencyException;
 import com.mizbah.exception.DuplicateEntityFoundException;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -72,11 +74,31 @@ public class ExceptionInterceptor {
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.BAD_REQUEST);
 	}
 
+	@ExceptionHandler(DependencyException.class)
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public ResponseEntity<ErrorResponse> handleDependencyException(DependencyException e) {
+
+		log.error("Got DependencyException");
+
+		ErrorResponse error = new ErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+		return new ResponseEntity<ErrorResponse>(error, HttpStatus.BAD_REQUEST);
+	}
+
 	@ExceptionHandler(EntityExistsException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ResponseEntity<ErrorResponse> handleEntityExistsException(EntityExistsException e) {
 
 		log.error("Got EntityExistsException");
+
+		ErrorResponse error = new ErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+		return new ResponseEntity<ErrorResponse>(error, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(EntityNotFoundException.class)
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException e) {
+
+		log.error("Got EntityNotFoundException");
 
 		ErrorResponse error = new ErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value());
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.BAD_REQUEST);

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mizbah.dto.DishDto;
-import com.mizbah.entity.Dish;
 import com.mizbah.service.interfaces.DishService;
 
 import lombok.AllArgsConstructor;
@@ -28,22 +27,22 @@ public class DishController {
 	DishService dishService;
 
 	@GetMapping
-	ResponseEntity<List<Dish>> getAllDishes() {
+	ResponseEntity<List<DishDto>> getAllDishes() {
 		return ResponseEntity.ok(dishService.getAllDishes());
 	}
 
 	@GetMapping("/{id}")
-	ResponseEntity<Dish> getDishById(@PathVariable("id") long id) {
+	ResponseEntity<DishDto> getDishById(@PathVariable("id") long id) {
 		return ResponseEntity.ok(dishService.getDishById(id));
 	}
 
 	@PostMapping
-	ResponseEntity<Dish> createDish(@Validated @RequestBody DishDto dish) {
+	ResponseEntity<DishDto> createDish(@Validated @RequestBody DishDto dish) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(dishService.createDish(dish));
 	}
 
 	@PutMapping("/{id}")
-	ResponseEntity<Dish> updateDish(@PathVariable("id") long id, @Validated @RequestBody DishDto dish) {
+	ResponseEntity<DishDto> updateDish(@PathVariable("id") long id, @Validated @RequestBody DishDto dish) {
 		return ResponseEntity.ok(dishService.updateDish(id, dish));
 	}
 

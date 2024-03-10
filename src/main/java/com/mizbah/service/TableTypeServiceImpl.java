@@ -5,11 +5,11 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.mizbah.adapter.TableTypeAdapter;
 import com.mizbah.dto.TableTypeDto;
 import com.mizbah.entity.TableType;
 import com.mizbah.repository.TableTypeRepository;
 import com.mizbah.service.interfaces.TableTypeService;
-import com.mizbah.util.ConversionUtil;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -21,39 +21,40 @@ import lombok.extern.log4j.Log4j2;
 public class TableTypeServiceImpl implements TableTypeService {
 
 	TableTypeRepository tableTypeRepository;
+	TableTypeAdapter tableTypeAdapter;
 
 	@Override
-	public List<TableType> getAllTableTypes() {
-		return tableTypeRepository.findAll();
+	public List<TableTypeDto> getAllTableTypes() {
+		return tableTypeAdapter.toDto(tableTypeRepository.findAll());
 	}
 
 	@Override
-	public TableType getTableTypeById(long id) {
+	public TableTypeDto getTableTypeById(long id) {
 		Optional<TableType> tableType = tableTypeRepository.findById(id);
 		if (tableType.isEmpty()) {
 			throw new EntityNotFoundException("TableType not found with ID: " + id);
 		}
-		return tableType.get();
+		return tableTypeAdapter.toDto(tableType.get());
 	}
 
 	@Override
-	public TableType createTableType(TableTypeDto tableTypeRequest) {
-		TableType tableType = ConversionUtil.convert(tableTypeRequest, TableType.class);
+	public TableTypeDto createTableType(TableTypeDto tableTypeRequest) {
+		TableType tableType = tableTypeAdapter.toEntity(tableTypeRequest);
 		tableTypeRepository.save(tableType);
-		return tableType;
+		return tableTypeAdapter.toDto(tableType);
 	}
 
 	@Override
-	public TableType updateTableType(long id, TableTypeDto tableTypeRequest) {
+	public TableTypeDto updateTableType(long id, TableTypeDto tableTypeRequest) {
 
 		if (!tableTypeRepository.existsById(id)) {
 			throw new EntityNotFoundException("TableType not found with ID: " + id);
 		}
 
-		TableType tableType = ConversionUtil.convert(tableTypeRequest, TableType.class);
+		TableType tableType = tableTypeAdapter.toEntity(tableTypeRequest);
 		tableType.setId(id);
 		tableTypeRepository.save(tableType);
-		return tableType;
+		return tableTypeAdapter.toDto(tableType);
 
 	}
 

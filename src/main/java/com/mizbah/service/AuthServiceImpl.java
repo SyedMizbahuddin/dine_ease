@@ -16,7 +16,6 @@ import com.mizbah.entity.Role;
 import com.mizbah.entity.User;
 import com.mizbah.repository.UserRepository;
 import com.mizbah.service.interfaces.AuthService;
-import com.mizbah.util.ConversionUtil;
 
 import jakarta.persistence.EntityExistsException;
 import lombok.AllArgsConstructor;
@@ -42,13 +41,15 @@ public class AuthServiceImpl implements AuthService {
 			throw new EntityExistsException("User already exists with email: " + request.getEmail());
 		}
 
-		User user = ConversionUtil.convert(request, User.class);
+		User user = User.builder().email(request.getEmail()).name(request.getName()).password(request.getPassword())
+				.build();
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		Role role = new Role(request.getRole());
 		user.add(role);
 
 		User createdUser = userRepository.save(user);
-		UserDto createUserDto = ConversionUtil.convert(createdUser, UserDto.class);
+		UserDto createUserDto = UserDto.builder().email(createdUser.getEmail()).name(createdUser.getName())
+				.id(createdUser.getId()).build();
 		return createUserDto;
 	}
 

@@ -1,0 +1,24 @@
+package com.mizbah.adapter;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+public abstract class AbstractAdapter<E, D> implements Adapter<E, D> {
+
+	@Override
+	public abstract E toEntity(D dto);
+
+	@Override
+	public abstract D toDto(E entity);
+
+	@Override
+	public List<E> toEntity(List<D> dtos) {
+		return dtos.stream().map(this::toEntity).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<D> toDto(List<E> entities) {
+		return entities.stream().map(this::toDto).collect(Collectors.toList());
+	}
+
+}

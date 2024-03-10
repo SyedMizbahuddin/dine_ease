@@ -63,7 +63,7 @@ public class TableTypeServiceImpl implements TableTypeService {
 		if (!tableTypeRepository.existsById(id)) {
 			throw new EntityNotFoundException("TableType not found with ID: " + id);
 		}
-		// dependency check to be made, CASCADE
+		// TODO CASCADE to branch_tables? allow?
 		tableTypeRepository.deleteById(id);
 
 	}

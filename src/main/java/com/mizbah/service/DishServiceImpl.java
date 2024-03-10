@@ -87,7 +87,7 @@ public class DishServiceImpl implements DishService {
 			throw new EntityNotFoundException("Dish not found with ID: " + id);
 		}
 		// CASCADE to category? No
-		// CASCADE to menu? yes or not allow? yes
+		// TODO CASCADE to menu? allow? yes TODO
 		dishRepository.deleteById(id);
 
 	}

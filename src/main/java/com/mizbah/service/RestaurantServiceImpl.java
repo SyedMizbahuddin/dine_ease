@@ -104,10 +104,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 				"Restaurant not found with ID: " + id));
 
 		// No Owner change allowed
-		restaurant.setName(restaurant.getName() + " - " + restaurantRequest.getName());
+		restaurant.setName(restaurantRequest.getName());
 		restaurant.setId(id);
 
-		restaurantRepository.save(restaurant);
+		restaurant = restaurantRepository.save(restaurant);
 
 		return restaurantAdapter.toDto(restaurant);
 

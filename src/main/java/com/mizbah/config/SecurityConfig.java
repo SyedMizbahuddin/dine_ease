@@ -2,6 +2,7 @@ package com.mizbah.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -11,6 +12,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+
+import com.mizbah.enums.UserRole;
 
 import lombok.AllArgsConstructor;
 
@@ -26,12 +29,34 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-		String[] public_url = { "/v3/api-docs/**", "/swagger-ui/**", "/v2/api-docs/**", "/swagger-resources/**",
-				"/error", "/actuator/**" };
+		String[] swagger_url = {
+				"/v3/api-docs/**",
+				"/swagger-ui/**",
+				"/v2/api-docs/**",
+				"/swagger-resources/**",
+				"/actuator/**"
+		};
+
+		String[] management_url = {
+				"/api/v1/cities/**",
+				"/api/v1/dishes/**",
+				"/api/v1/table-types/**",
+				"/api/v1/food-categories/**"
+		};
 		http.csrf(csrf -> csrf.disable());
 
-		http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**").permitAll()
-				.requestMatchers(public_url).permitAll().anyRequest().authenticated());
+		http.authorizeHttpRequests(auth -> auth
+				.requestMatchers("/api/v1/auth/**")
+				.permitAll()
+				.requestMatchers("/error")
+				.permitAll()
+				.requestMatchers(swagger_url)
+				.permitAll()
+				.requestMatchers(HttpMethod.POST, management_url).hasRole(UserRole.ADMIN.name())
+				.requestMatchers(HttpMethod.PUT, management_url).hasRole(UserRole.ADMIN.name())
+				.requestMatchers(HttpMethod.DELETE, management_url).hasRole(UserRole.ADMIN.name())
+				.anyRequest()
+				.authenticated());
 
 		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 

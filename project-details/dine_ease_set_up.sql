@@ -48,25 +48,30 @@ CREATE TABLE IF NOT EXISTS restaurants(
 	id int NOT NULL AUTO_INCREMENT,
     name varchar(128) NOT NULL,
     image varchar(256) DEFAULT NULL,
+    owner_id int NOT NULL,
     
     UNIQUE (name),
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    
+    FOREIGN KEY (owner_id) REFERENCES users (id) 
+	ON DELETE CASCADE ON UPDATE NO ACTION
+
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
 
 
-CREATE TABLE IF NOT EXISTS owners(
-	user_id int NOT NULL,
-    restaurant_id int NOT NULL,
-    
-     PRIMARY KEY (user_id, restaurant_id),
-    
-    FOREIGN KEY (user_id) REFERENCES users (id) 
-    ON DELETE CASCADE ON UPDATE NO ACTION,
-    
-    FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) 
-    ON DELETE CASCADE ON UPDATE NO ACTION
-    
-)ENGINE=InnoDB AUTO_INCREMENT=1;
+-- CREATE TABLE IF NOT EXISTS owners(
+-- 	user_id int NOT NULL,
+--     restaurant_id int NOT NULL,
+--     
+--      PRIMARY KEY (user_id, restaurant_id),
+--     
+--     FOREIGN KEY (user_id) REFERENCES users (id) 
+--     ON DELETE CASCADE ON UPDATE NO ACTION,
+--     
+--     FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) 
+--     ON DELETE CASCADE ON UPDATE NO ACTION
+--     
+-- )ENGINE=InnoDB AUTO_INCREMENT=1;
 
 
 CREATE TABLE IF NOT EXISTS cities(
@@ -78,7 +83,19 @@ CREATE TABLE IF NOT EXISTS cities(
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
 
 
-INSERT INTO cities(city) VALUES('Hyderabad'), ('Banglore'), ('Mumbai'), ('Kolkata'), ('Delhi'), ('Kamareddy');
+INSERT INTO cities(city) VALUES('Hyderabad'), 
+	('Banglore'), 
+    ('Mumbai'), 
+    ('Kolkata'),
+    ('Delhi'),
+    ('Kamareddy'),
+    ('Pune'),
+    ('Chennai'),
+    ('Lucknow'),
+    ('Ahmedabad'),
+    ('Jaipur'),
+    ('Bhopal'),
+    ('Chandigarh');
 
 
 CREATE TABLE IF NOT EXISTS branches(
@@ -107,7 +124,17 @@ CREATE TABLE IF NOT EXISTS food_categories(
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
 
 
-INSERT INTO food_categories(name) VALUES('Fried rice'), ('Noodles'), ('Non-veg starters'), ('Veg Starters'), ('Main course'), ('Burger'), ('Pizza'), ('Soup'), ('Non-veg curries'), ('Veg curries'), ('Roti & paratha');
+INSERT INTO food_categories(name) VALUES('Fried rice'),
+	('Noodles'),
+	('Non-veg starters'),
+    ('Veg Starters'),
+    ('Main course'),
+    ('Burger'),
+    ('Pizza'),
+    ('Soup'),
+    ('Non-veg curries'),
+    ('Veg curries'),
+    ('Roti & paratha');
 
 CREATE TABLE IF NOT EXISTS dishes(
 	id int NOT NULL AUTO_INCREMENT,

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,7 +15,9 @@ import com.mizbah.repository.RoleRepository;
 import com.mizbah.repository.UserRepository;
 
 import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @NoArgsConstructor
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -35,13 +35,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException("User with email not found: " + username);
 		}
 
-		List<GrantedAuthority> roles = new ArrayList<>();
+		List<String> roles = new ArrayList<>();
 		for (Role role : user.getRoles()) {
-			roles.add(new SimpleGrantedAuthority(role.getRole().name()));
+			roles.add(role.getRole().name());
 		}
 
 		UserDetails userDetails = org.springframework.security.core.userdetails.User.builder().username(user.getEmail())
-				.password(user.getPassword()).authorities(roles).build();
+				.password(user.getPassword()).roles(roles.toArray(new String[0])).build();
 		return userDetails;
 	}
 

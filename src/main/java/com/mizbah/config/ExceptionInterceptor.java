@@ -114,9 +114,9 @@ public class ExceptionInterceptor {
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNAUTHORIZED);
 	}
 
-	@ExceptionHandler(Exception.class)
+	@ExceptionHandler(RuntimeException.class)
 	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-	public ResponseEntity<ErrorResponse> handleException(Exception e) {
+	public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException e) {
 
 		log.error("Got Exception");
 

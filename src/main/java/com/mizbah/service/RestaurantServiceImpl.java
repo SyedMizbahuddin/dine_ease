@@ -97,7 +97,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-	@Transactional
+//	@Transactional
 	public RestaurantDto updateRestaurant(long id, RestaurantDto restaurantRequest) {
 
 		Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(
@@ -123,7 +123,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-	@Transactional
+//	@Transactional
 	public RestaurantDto updateRestaurant2(long id, RestaurantDto restaurantRequest) {
 
 		Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(

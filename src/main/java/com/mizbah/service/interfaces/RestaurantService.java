@@ -15,6 +15,8 @@ public interface RestaurantService {
 
 	RestaurantDto updateRestaurant(long id, RestaurantDto restaurant);
 
+	RestaurantDto updateRestaurant2(long id, RestaurantDto restaurant);
+
 	void deleteRestaurant(long id);
 
 	List<CityDto> getBranchesByRestaurantId(long id);

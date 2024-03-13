@@ -104,10 +104,38 @@ public class RestaurantServiceImpl implements RestaurantService {
 				"Restaurant not found with ID: " + id));
 
 		// No Owner change allowed
-		restaurant.setName(restaurant.getName() + " - " + restaurantRequest.getName());
+		restaurant.setName(restaurant.getName() + restaurantRequest.getName());
 		restaurant.setId(id);
 
-		restaurantRepository.save(restaurant);
+		try {
+			Thread.sleep(15000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		restaurant = restaurantRepository.save(restaurant);
+
+		log.info("restaurant 1 name {}", restaurant.getName());
+
+		return restaurantAdapter.toDto(restaurant);
+
+	}
+
+	@Override
+	@Transactional
+	public RestaurantDto updateRestaurant2(long id, RestaurantDto restaurantRequest) {
+
+		Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(
+				"Restaurant not found with ID: " + id));
+
+		// No Owner change allowed
+		restaurant.setName(restaurant.getName() + restaurantRequest.getName());
+		restaurant.setId(id);
+
+		restaurant = restaurantRepository.save(restaurant);
+
+		log.info("restaurant 2 name {}", restaurant.getName());
 
 		return restaurantAdapter.toDto(restaurant);
 

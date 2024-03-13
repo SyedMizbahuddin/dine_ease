@@ -15,6 +15,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,6 +45,9 @@ public class Restaurant {
 	@ManyToMany
 	@JoinTable(name = "branches", joinColumns = @JoinColumn(name = "restaurant_id"), inverseJoinColumns = @JoinColumn(name = "city_id"))
 	private List<City> cities;
+
+	@Version
+	private Long version;
 
 	public void add(City city) {
 		if (cities == null) {

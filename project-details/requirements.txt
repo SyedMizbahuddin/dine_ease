@@ -55,16 +55,88 @@
 
 Learning:
 	1. Normalization multiple branches for restaurant using xNF
-	2. Normalization food category to avoid multiple names
-	4. Designing DB
-	5. ControllerAdvice does not handle filter /errors, have to get it handled by first filter
-		and map it to Default Exception resolver also handle RuntimeException
+	2. Normalization Menu to avoid multiple names
+	3. Designing DB
+	4. With Spring Security permit /error page to avoid 403 for every error
+	5. ControllerAdvice handles exception after filter, errors before filter to be handled by 
+		first filter and map to resolver, also handle RuntimeException
 	6. JOIN FETCH to avoid N + 1
-	7. Data JPA updates all fields by default
+	7. Data JPA updates all fields by default fetch and update
 	8. RBAC ABAC
+	9. 
 	
+Concurrency:
+	Locks:
+		When some PORTION of the database is LOCKED, any other users wishing to
+		modify (or read) that data must WAIT
+		
+		Two locking strategies:
+		1. Write lock & read lock
+		2. Write lock & read based on versioning(by DB to ensure 
+		from start to end of query same data)
+		
+		
+		Pros & cons:
+		1. Long wait times if there are many concurrent read and write requests
+		2. Problematic if there are long-running queries while data is being modified
+		
+		
+		Granularities:
+		1. Table lock
+		2. Page lock (same segment of memory 2 - 16KB) of a table
+		3. Row lock
+		
+		Pros & cons:
+		1. +Little bookkeeping - More wait time
+		2,3. -More bookkeeping + Less wait time (if modifying different rows)
+		
+	Transactions:
+		Start Transaction
+		good -> commit
+		bad -> rollback
+		
+		If server shut down before commit/ rollback
+		first thing after coming on online is rollback 
+		If shut down after commit(is in memory) but before flush(move to permanent storage)
+		first thing after coming on online is reapply
+		
+		
+		Handling by DB 2 ways:
+		1. Transaction is active always, if it ends automatically start new
+		2. You start manually
+		
+		Either way used you have to explicity end the transaction
+	
+	
+	Implementation:
+		
+		1. Versioning / Optimistic lock
+			@Version, retrieve - process - update, before updating check version is same
+			 as retrieve. Detecting changes on entities by checking their version attribute
+			 
+			 Pros & Cons:
+			 1. + Easy to implement
+			 2. + Less Overhead on application performance 
+			 3. + No locks, so no waiting
+			 4. + No silent lost/ over ride
+			 5. + No dead locks
+			 4. - Many rollbacks
+			 
+			 Suitable:
+			 1. Where less updates/ deletes
+			 2. Where less conflict of updating same resource 
+			 3. Where lock cannot be held
+			 4. Where transaction are short running
+			 
+			 Optimistic Lock is available by default to version-ed entities, but can request explicitly as well
+			 
+			 
+		
 
 
+		
+		
+		
 
 
 	

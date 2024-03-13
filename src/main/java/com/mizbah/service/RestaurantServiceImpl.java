@@ -107,6 +107,13 @@ public class RestaurantServiceImpl implements RestaurantService {
 		restaurant.setName(restaurant.getName() + " - " + restaurantRequest.getName());
 		restaurant.setId(id);
 
+//		try {
+//			Thread.sleep(10000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+
 		restaurantRepository.save(restaurant);
 
 		return restaurantAdapter.toDto(restaurant);

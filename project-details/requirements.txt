@@ -66,6 +66,8 @@ Learning:
 	9. 
 	
 Concurrency:
+	https://medium.com/@bubu.tripathy/managing-concurrent-database-updates-eaf2fe161c48
+	https://medium-parser-seven.vercel.app/?url=https://medium.com/@soyjuanmalopez/conquering-concurrency-in-spring-boot-strategies-and-solutions-152f41dd9005
 	Locks:
 		When some PORTION of the database is LOCKED, any other users wishing to
 		modify (or read) that data must WAIT
@@ -131,6 +133,12 @@ Concurrency:
 			 Optimistic Lock is available by default to version-ed entities, but can request explicitly as well
 			 
 			 
+			
+		2. Transactional 
+			It has Propagation, Isolation, readOnly, Timeout, rollBack
+			imp: Propagation, isolation
+			logging.level.org.springframework=trace to see the transactions
+			
 		
 
 

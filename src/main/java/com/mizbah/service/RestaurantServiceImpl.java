@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mizbah.adapter.CityAdapter;
 import com.mizbah.adapter.RestaurantAdapter;
@@ -20,7 +22,6 @@ import com.mizbah.repository.UserRepository;
 import com.mizbah.service.interfaces.RestaurantService;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -97,26 +98,62 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(isolation = Isolation.REPEATABLE_READ)
 	public RestaurantDto updateRestaurant(long id, RestaurantDto restaurantRequest) {
 
-		Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(
+		Restaurant restaurant1 = restaurantRepository.findById(1L).orElseThrow(() -> new EntityNotFoundException(
+				"Restaurant not found with ID: " + id));
+
+		Restaurant restaurant2 = restaurantRepository.findById(2L).orElseThrow(() -> new EntityNotFoundException(
 				"Restaurant not found with ID: " + id));
 
 		// No Owner change allowed
-		restaurant.setName(restaurant.getName() + " - " + restaurantRequest.getName());
-		restaurant.setId(id);
 
-//		try {
-//			Thread.sleep(10000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		restaurant1.setName(restaurant1.getName() + " - " + restaurantRequest.getName());
+		restaurantRepository.save(restaurant1);
 
-		restaurantRepository.save(restaurant);
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		return restaurantAdapter.toDto(restaurant);
+		restaurant2.setName(restaurant2.getName() + " - " + restaurantRequest.getName());
+		restaurantRepository.save(restaurant2);
+
+		return restaurantAdapter.toDto(restaurant1);
+
+	}
+
+	@Override
+//	@Transactional(isolation = Isolation.REPEATABLE_READ)
+	public RestaurantDto updateRestaurant2(long id, RestaurantDto restaurantRequest) {
+
+		Restaurant restaurant1 = restaurantRepository.findById(1L).orElseThrow(() -> new EntityNotFoundException(
+				"Restaurant not found with ID: " + id));
+
+		Restaurant restaurant2 = restaurantRepository.findById(2L).orElseThrow(() -> new EntityNotFoundException(
+				"Restaurant not found with ID: " + id));
+
+		// No Owner change allowed
+
+		restaurant2.setName(restaurant2.getName() + " - " + restaurantRequest.getName());
+		log.info("updated 1");
+//		restaurantRepository.save(restaurant2);
+
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		restaurant1.setName(restaurant1.getName() + " - " + restaurantRequest.getName());
+		log.info("updated 2");
+		restaurantRepository.save(restaurant1);
+
+		return restaurantAdapter.toDto(restaurant2);
 
 	}
 

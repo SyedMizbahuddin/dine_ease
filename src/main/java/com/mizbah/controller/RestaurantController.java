@@ -59,6 +59,12 @@ public class RestaurantController {
 		return ResponseEntity.ok(restaurantService.updateRestaurant(id, restaurant));
 	}
 
+	@PutMapping("/wait/{id}")
+	ResponseEntity<RestaurantDto> updateRestaurant2(@PathVariable("id") long id,
+			@Validated @RequestBody RestaurantDto restaurant) {
+		return ResponseEntity.ok(restaurantService.updateRestaurant2(id, restaurant));
+	}
+
 	@DeleteMapping("/{id}")
 	ResponseEntity<?> deleteRestaurant(@PathVariable("id") long id) {
 		restaurantService.deleteRestaurant(id);

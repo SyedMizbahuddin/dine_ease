@@ -23,4 +23,6 @@ public interface RestaurantService {
 
 	List<CityDto> deleteBranch(long restaurantId, long cityId);
 
+	RestaurantDto updateRestaurant2(long id, RestaurantDto restaurantRequest);
+
 }

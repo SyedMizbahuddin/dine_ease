@@ -1,6 +1,7 @@
 package com.mizbah.config;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,6 +60,18 @@ public class ExceptionInterceptor {
 		log.error("Got DataIntegrityViolationException");
 
 		ErrorResponse errorResponse = new ErrorResponse("Data integrity violation: " + e.getMessage(),
+				HttpStatus.CONFLICT.value());
+
+		return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(ConcurrencyFailureException.class)
+	@ResponseStatus(code = HttpStatus.CONFLICT)
+	public ResponseEntity<ErrorResponse> handleConcurrencyFailureException(ConcurrencyFailureException e) {
+
+		log.error("Got ConcurrencyFailureException");
+
+		ErrorResponse errorResponse = new ErrorResponse("Concurrency Exception: " + e.getMessage(),
 				HttpStatus.CONFLICT.value());
 
 		return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);

@@ -43,6 +43,10 @@ public class SecurityConfig {
 				"/api/v1/table-types/**",
 				"/api/v1/food-categories/**"
 		};
+
+		String[] owner_url = {
+				"/api/v1/restaurants/**",
+		};
 		http.csrf(csrf -> csrf.disable());
 
 		http.authorizeHttpRequests(auth -> auth
@@ -55,6 +59,9 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.POST, management_url).hasRole(UserRole.ADMIN.name())
 				.requestMatchers(HttpMethod.PUT, management_url).hasRole(UserRole.ADMIN.name())
 				.requestMatchers(HttpMethod.DELETE, management_url).hasRole(UserRole.ADMIN.name())
+				.requestMatchers(HttpMethod.POST, owner_url).hasRole(UserRole.OWNER.name())
+				.requestMatchers(HttpMethod.PUT, owner_url).hasRole(UserRole.OWNER.name())
+				.requestMatchers(HttpMethod.DELETE, owner_url).hasRole(UserRole.OWNER.name())
 				.anyRequest()
 				.authenticated());
 

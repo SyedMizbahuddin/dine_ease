@@ -6,14 +6,11 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mizbah.adapter.CityAdapter;
 import com.mizbah.adapter.RestaurantAdapter;
 import com.mizbah.dto.RestaurantDto;
 import com.mizbah.entity.Restaurant;
 import com.mizbah.entity.User;
 import com.mizbah.exception.DependencyException;
-import com.mizbah.repository.CityRepository;
-import com.mizbah.repository.MenuRepository;
 import com.mizbah.repository.RestaurantRepository;
 import com.mizbah.repository.UserRepository;
 import com.mizbah.service.interfaces.RestaurantService;
@@ -29,11 +26,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 	RestaurantRepository restaurantRepository;
 	UserRepository userRepository;
-	CityRepository cityRepository;
-	MenuRepository menuRepository;
 
 	RestaurantAdapter restaurantAdapter;
-	CityAdapter cityAdapter;
 
 	@Override
 	public List<RestaurantDto> getAllRestaurants() {
@@ -47,6 +41,12 @@ public class RestaurantServiceImpl implements RestaurantService {
 			throw new EntityNotFoundException("Restaurant not found with ID: " + id);
 		}
 		return restaurantAdapter.toDto(restaurant.get());
+	}
+
+	@Override
+	public List<RestaurantDto> getRestaurantByName(String name) {
+		List<Restaurant> restaurants = restaurantRepository.findByNameContaining(name);
+		return restaurantAdapter.toDto(restaurants);
 	}
 
 	@Override

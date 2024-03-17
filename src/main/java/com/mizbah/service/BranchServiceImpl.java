@@ -3,6 +3,7 @@ package com.mizbah.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,9 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mizbah.adapter.CityAdapter;
 import com.mizbah.adapter.RestaurantAdapter;
 import com.mizbah.dto.CityDto;
+import com.mizbah.dto.RestaurantDto;
+import com.mizbah.entity.Branch;
 import com.mizbah.entity.City;
 import com.mizbah.entity.Restaurant;
 import com.mizbah.exception.DependencyException;
+import com.mizbah.repository.BranchRepository;
 import com.mizbah.repository.CityRepository;
 import com.mizbah.repository.RestaurantRepository;
 import com.mizbah.service.interfaces.BranchService;
@@ -28,6 +32,7 @@ public class BranchServiceImpl implements BranchService {
 
 	RestaurantRepository restaurantRepository;
 	CityRepository cityRepository;
+	BranchRepository branchRepository;
 
 	RestaurantAdapter restaurantAdapter;
 	CityAdapter cityAdapter;
@@ -44,6 +49,17 @@ public class BranchServiceImpl implements BranchService {
 			return new ArrayList<>();
 		}
 		return cityAdapter.toDto(restaurant.get().getCities());
+	}
+
+	@Override
+	public List<RestaurantDto> getRestaurantsByCityId(long cityId) {
+		List<Branch> branches = branchRepository.findByCityId(cityId);
+
+		List<Restaurant> restaurants = branches.stream()
+				.map(Branch::getRestaurant)
+				.collect(Collectors.toList());
+
+		return restaurantAdapter.toDto(restaurants);
 	}
 
 	@Override

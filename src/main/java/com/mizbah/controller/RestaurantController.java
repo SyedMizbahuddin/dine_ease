@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mizbah.dto.RestaurantDto;
@@ -34,6 +35,11 @@ public class RestaurantController {
 	@GetMapping("/{id}")
 	ResponseEntity<RestaurantDto> getRestaurantById(@PathVariable("id") long id) {
 		return ResponseEntity.ok(restaurantService.getRestaurantById(id));
+	}
+
+	@GetMapping("/name")
+	ResponseEntity<List<RestaurantDto>> getRestaurantByName(@RequestParam("name") String name) {
+		return ResponseEntity.ok(restaurantService.getRestaurantByName(name));
 	}
 
 	@PostMapping

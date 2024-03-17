@@ -1,6 +1,7 @@
 package com.mizbah.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mizbah.adapter.MenuAdapter;
 import com.mizbah.adapter.RestaurantAdapter;
 import com.mizbah.dto.MenuDto;
+import com.mizbah.dto.RestaurantDto;
 import com.mizbah.entity.Dish;
 import com.mizbah.entity.Menu;
 import com.mizbah.entity.Restaurant;
@@ -40,6 +42,17 @@ public class MenuServiceImpl implements MenuService {
 		}
 		List<Menu> menu = menuRepository.findByRestaurantId(restaurantId);
 		return menuAdapter.toDto(menu);
+	}
+
+	@Override
+	public List<RestaurantDto> getRestaurantsByDishId(long dishId) {
+		List<Menu> menus = menuRepository.findByDishId(dishId);
+
+		List<Restaurant> restaurants = menus.stream()
+				.map(Menu::getRestaurant)
+				.collect(Collectors.toList());
+
+		return restaurantAdapter.toDto(restaurants);
 	}
 
 	@Transactional

@@ -16,4 +16,6 @@ public interface RestaurantService {
 
 	void deleteRestaurant(long id);
 
+	List<RestaurantDto> getRestaurantByName(String name);
+
 }

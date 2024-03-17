@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mizbah.dto.MenuDto;
+import com.mizbah.dto.RestaurantDto;
 import com.mizbah.service.interfaces.MenuService;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +28,11 @@ public class MenuController {
 	@GetMapping("/{restaurant_id}/menu")
 	ResponseEntity<List<MenuDto>> getDishesByRestaurantId(@PathVariable("restaurant_id") long restaurantId) {
 		return ResponseEntity.ok(menuService.getDishesByRestaurantId(restaurantId));
+	}
+
+	@GetMapping("/menu/{dish_id}")
+	ResponseEntity<List<RestaurantDto>> getRestaurantsByDishId(@PathVariable("dish_id") long dishId) {
+		return ResponseEntity.ok(menuService.getRestaurantsByDishId(dishId));
 	}
 
 	@PostMapping("/{restaurant_id}/menu/{dish_id}")

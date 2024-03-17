@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mizbah.adapter.CityAdapter;
 import com.mizbah.dto.CityDto;
@@ -44,6 +45,7 @@ public class CityServiceImpl implements CityService {
 		return cityAdapter.toDto(city);
 	}
 
+	@Transactional
 	@Override
 	public CityDto updateCity(long id, CityDto cityRequest) {
 
@@ -58,6 +60,7 @@ public class CityServiceImpl implements CityService {
 
 	}
 
+	@Transactional
 	@Override
 	public void deleteCity(long id) {
 		if (!cityRepository.existsById(id)) {

@@ -113,6 +113,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 	}
 
+	@Transactional
 	@Override
 	public void deleteRestaurant(long id) {
 		if (!restaurantRepository.existsById(id)) {

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mizbah.adapter.TableTypeAdapter;
 import com.mizbah.dto.TableTypeDto;
@@ -44,6 +45,7 @@ public class TableTypeServiceImpl implements TableTypeService {
 		return tableTypeAdapter.toDto(tableType);
 	}
 
+	@Transactional
 	@Override
 	public TableTypeDto updateTableType(long id, TableTypeDto tableTypeRequest) {
 
@@ -58,6 +60,7 @@ public class TableTypeServiceImpl implements TableTypeService {
 
 	}
 
+	@Transactional
 	@Override
 	public void deleteTableType(long id) {
 		if (!tableTypeRepository.existsById(id)) {

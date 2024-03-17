@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mizbah.adapter.DishAdapter;
 import com.mizbah.dto.DishDto;
@@ -58,6 +59,7 @@ public class DishServiceImpl implements DishService {
 		return dishAdapter.toDto(dish);
 	}
 
+	@Transactional
 	@Override
 	public DishDto updateDish(long id, DishDto dishRequest) {
 
@@ -81,6 +83,7 @@ public class DishServiceImpl implements DishService {
 
 	}
 
+	@Transactional
 	@Override
 	public void deleteDish(long id) {
 		if (!dishRepository.existsById(id)) {

@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mizbah.config.JwtService;
 import com.mizbah.dto.LoginRequest;
@@ -32,6 +33,7 @@ public class AuthServiceImpl implements AuthService {
 	JwtService jwtService;
 	UserDetailsService userDetailsService;
 
+	@Transactional
 	@Override
 	public UserDto createUser(SignupRequest request) {
 

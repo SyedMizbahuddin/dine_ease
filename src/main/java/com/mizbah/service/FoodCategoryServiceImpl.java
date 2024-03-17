@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mizbah.adapter.FoodCategoryAdapter;
 import com.mizbah.dto.FoodCategoryDto;
@@ -44,6 +45,7 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
 		return foodCategoryAdapter.toDto(foodCategory);
 	}
 
+	@Transactional
 	@Override
 	public FoodCategoryDto updateFoodCategory(long id, FoodCategoryDto foodCategoryRequest) {
 
@@ -58,6 +60,7 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
 
 	}
 
+	@Transactional
 	@Override
 	public void deleteFoodCategory(long id) {
 		if (!foodCategoryRepository.existsById(id)) {

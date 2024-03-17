@@ -69,7 +69,10 @@ Learning:
 	6. JOIN FETCH to avoid N + 1
 	7. Data JPA updates all fields by default fetch and update
 	8. RBAC ABAC
-	9. 
+	9. Adding @Transactional to update/delete methods only along with @Version
+		for optimistic locking, as very less updates are expected. Not required for
+		Create methods as DB handles duplicate creation based on unique constraints.
+	10. 
 	
 Concurrency:
 	https://medium.com/@bubu.tripathy/managing-concurrent-database-updates-eaf2fe161c48

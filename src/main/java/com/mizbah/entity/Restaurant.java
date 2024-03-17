@@ -15,6 +15,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -40,6 +41,9 @@ public class Restaurant {
 	@JoinColumn(name = "owner_id")
 	@JsonIgnore
 	private User owner;
+
+	@Version
+	private Long version;
 
 	@ManyToMany
 	@JoinTable(name = "branches", joinColumns = @JoinColumn(name = "restaurant_id"), inverseJoinColumns = @JoinColumn(name = "city_id"))

@@ -7,19 +7,20 @@ use dine_ease;
 SET FOREIGN_KEY_CHECKS = 0;
 
 CREATE TABLE IF NOT EXISTS users(
-	id int NOT NULL AUTO_INCREMENT,
+	id BIGINT NOT NULL AUTO_INCREMENT,
     name varchar(45) DEFAULT NULL,
     email varchar(45) NOT NULL,
     password varchar(70) NOT NULL,
+    version BIGINT NOT NULL DEFAULT 0,
     
     PRIMARY KEY (id),
     UNIQUE (email)
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS roles(
-	id int NOT NULL AUTO_INCREMENT,
+	id BIGINT NOT NULL AUTO_INCREMENT,
     role varchar(20) NOT NULL CHECK (role IN ('ADMIN','OWNER','CUSTOMER')),
-    user_id int NOT NULL,
+    user_id BIGINT NOT NULL,
     
 	PRIMARY KEY (id),
     UNIQUE (role, user_id),
@@ -45,10 +46,11 @@ CREATE TABLE IF NOT EXISTS roles(
 
 
 CREATE TABLE IF NOT EXISTS restaurants(
-	id int NOT NULL AUTO_INCREMENT,
+	id BIGINT NOT NULL AUTO_INCREMENT,
     name varchar(128) NOT NULL,
     image varchar(256) DEFAULT NULL,
-    owner_id int NOT NULL,
+    owner_id BIGINT NOT NULL,
+    version BIGINT NOT NULL DEFAULT 0,
     
     UNIQUE (name),
     PRIMARY KEY (id),
@@ -75,8 +77,9 @@ CREATE TABLE IF NOT EXISTS restaurants(
 
 
 CREATE TABLE IF NOT EXISTS cities(
-	id int NOT NULL AUTO_INCREMENT,
+	id BIGINT NOT NULL AUTO_INCREMENT,
     city varchar(45) NOT NULL,
+    version BIGINT NOT NULL DEFAULT 0,
     
 	PRIMARY KEY (id),
     UNIQUE (city)
@@ -99,9 +102,9 @@ INSERT INTO cities(city) VALUES('Hyderabad'),
 
 
 CREATE TABLE IF NOT EXISTS branches(
-	restaurant_id int NOT NULL,
-    city_id int NOT NULL,
-    id int NOT NULL AUTO_INCREMENT,
+	restaurant_id BIGINT NOT NULL,
+    city_id BIGINT NOT NULL,
+    id BIGINT NOT NULL AUTO_INCREMENT,
     
     UNIQUE (restaurant_id, city_id),
     PRIMARY KEY (id),
@@ -115,9 +118,10 @@ CREATE TABLE IF NOT EXISTS branches(
 
 
 CREATE TABLE IF NOT EXISTS food_categories(
-	id int NOT NULL AUTO_INCREMENT,
+	id BIGINT NOT NULL AUTO_INCREMENT,
     name varchar(128) NOT NULL,
     image varchar(256) DEFAULT NULL,
+    version BIGINT NOT NULL DEFAULT 0,
     
     UNIQUE (name),
     PRIMARY KEY (id)
@@ -137,9 +141,10 @@ INSERT INTO food_categories(name) VALUES('Fried rice'),
     ('Roti & paratha');
 
 CREATE TABLE IF NOT EXISTS dishes(
-	id int NOT NULL AUTO_INCREMENT,
+	id BIGINT NOT NULL AUTO_INCREMENT,
     name varchar(128) NOT NULL,
-    category_id int NOT NULL,
+    category_id BIGINT NOT NULL,
+    version BIGINT NOT NULL DEFAULT 0,
     
     UNIQUE (name),
     PRIMARY KEY (id),
@@ -256,9 +261,10 @@ INSERT INTO dishes (name, category_id) VALUES
 
 
 CREATE TABLE IF NOT EXISTS table_types(
-	id int NOT NULL AUTO_INCREMENT,
+	id BIGINT NOT NULL AUTO_INCREMENT,
     chairs int NOT NULL,
     name varchar(45) NOT NULL,
+    version BIGINT NOT NULL DEFAULT 0,
     
 	PRIMARY KEY (id),
     UNIQUE (name, chairs)
@@ -295,10 +301,10 @@ INSERT INTO table_types (chairs, name) VALUES
     
 
 CREATE TABLE IF NOT EXISTS branch_tables(
-	branch_id int NOT NULL,
-    table_id int NOT NULL,
+	branch_id BIGINT NOT NULL,
+    table_id BIGINT NOT NULL,
     count int NOT NULL ,
-    id int NOT NULL AUTO_INCREMENT,
+    id BIGINT NOT NULL AUTO_INCREMENT,
     
     UNIQUE (branch_id, table_id),
     PRIMARY KEY (id),
@@ -313,8 +319,8 @@ CREATE TABLE IF NOT EXISTS branch_tables(
 
 
 CREATE TABLE IF NOT EXISTS Menu(
-	restaurant_id int NOT NULL,
-    dish_id int NOT NULL,
+	restaurant_id BIGINT NOT NULL,
+    dish_id BIGINT NOT NULL,
     price int NOT NULL ,
     
     UNIQUE (restaurant_id, dish_id),
@@ -328,8 +334,8 @@ CREATE TABLE IF NOT EXISTS Menu(
 
 
 CREATE TABLE IF NOT EXISTS bookings(
-	branch_table_id int NOT NULL,
-    customer_id int NOT NULL,
+	branch_table_id BIGINT NOT NULL,
+    customer_id BIGINT NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     

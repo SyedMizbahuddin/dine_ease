@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,5 +33,8 @@ public class City {
 	@ManyToMany
 	@JoinTable(name = "branches", joinColumns = @JoinColumn(name = "city_id"), inverseJoinColumns = @JoinColumn(name = "restaurant_id"))
 	private List<Restaurant> restaurants;
+
+	@Version
+	private Long version;
 
 }

@@ -38,6 +38,12 @@
 	10. An owner of an restaurant cannot update details of other restaurant? Obviously
 	11. Image or Blob ? 
 
+6. Design changes
+	1. Existing: branch tables - count, bookings - has Id
+		To check available count - no. of bookings, concurrent bookings as booking is inserted, phantom read problem arises and cant be solved
+		without Isolation.SERIALIZABLE which is in efficient
+
+
 6. Practices to be followed
 	1. REST
 	2. Git commit
@@ -55,16 +61,145 @@
 
 Learning:
 	1. Normalization multiple branches for restaurant using xNF
-	2. Normalization food category to avoid multiple names
-	4. Designing DB
-	5. ControllerAdvice does not handle filter /errors, have to get it handled by first filter
-		and map it to Default Exception resolver also handle RuntimeException
+	2. Normalization Menu to avoid multiple names
+	3. Designing DB
+	4. With Spring Security permit /error page to avoid 403 for every error
+	5. ControllerAdvice handles exception after filter, errors before filter to be handled by 
+		first filter and map to resolver, also handle RuntimeException
 	6. JOIN FETCH to avoid N + 1
-	7. Data JPA updates all fields by default
+	7. Data JPA updates all fields by default fetch and update
 	8. RBAC ABAC
+	9. 
 	
+Concurrency:
+	https://medium.com/@bubu.tripathy/managing-concurrent-database-updates-eaf2fe161c48
+	https://medium-parser-seven.vercel.app/?url=https://medium.com/@soyjuanmalopez/conquering-concurrency-in-spring-boot-strategies-and-solutions-152f41dd9005
+	Locks:
+		When some PORTION of the database is LOCKED, any other users wishing to
+		modify (or read) that data must WAIT
+		
+		Two locking strategies:
+		1. Write lock & read lock
+		2. Write lock & read based on versioning(by DB to ensure 
+		from start to end of query same data)
+		
+		
+		Pros & cons:
+		1. Long wait times if there are many concurrent read and write requests
+		2. Problematic if there are long-running queries while data is being modified
+		
+		
+		Granularities:
+		1. Table lock
+		2. Page lock (same segment of memory 2 - 16KB) of a table
+		3. Row lock
+		
+		Pros & cons:
+		1. +Little bookkeeping - More wait time
+		2,3. -More bookkeeping + Less wait time (if modifying different rows)
+		
+	Transactions:
+		Start Transaction
+		good -> commit
+		bad -> rollback
+		
+		If server shut down before commit/ rollback
+		first thing after coming on online is rollback 
+		If shut down after commit(is in memory) but before flush(move to permanent storage)
+		first thing after coming on online is reapply
+		
+		
+		Handling by DB 2 ways:
+		1. Transaction is active always, if it ends automatically start new
+		2. You start manually
+		
+		Either way used you have to explicity end the transaction
+
+	
+	
+	Implementation:
+		
+		1. Versioning / Optimistic lock
+			@Version, retrieve - process - update, before updating check version is same
+			 as retrieve. Detecting changes on entities by checking their version attribute
+			 
+			 Pros & Cons:
+			 1. + Easy to implement
+			 2. + Less Overhead on application performance 
+			 3. + No locks, so no waiting
+			 4. + No silent lost/ over ride
+			 5. + No dead locks
+			 4. - Many rollbacks
+			 
+			 Suitable:
+			 1. Where less updates/ deletes
+			 2. Where less conflict of updating same resource 
+			 3. Where lock cannot be held
+			 4. Where transaction are short running
+			 
+			 Optimistic Lock is available by default to version-ed entities, but can request explicitly as well
+			 ObjectOptimisticLockingFailureException
+			 
+			 
+			
+		2. Transactional 
+			It has Propagation, Isolation, readOnly, Timeout, rollBack
+			imp: Propagation, isolation
+			logging.level.org.springframework=trace to see the transactions/orm
+
+			What I understood so far is, it maintains atomicity. But concurrency is not his business
+			It will roll back if any error, so can use with optimistic Locking
+
+			Roll back does not happen on checked Excep
+			Only on unchecked
+
+			Propagation:
+				How transactions are created for methods called under a transaction
+				How existing transactions are getting used
 
 
+			Concurrency Problems + Concurrency solution - Isolation:
+			https://jennyttt.medium.com/dirty-read-non-repeatable-read-and-phantom-read-bd75dd69d03a
+
+			read uncommited:
+				No locks
+
+			read commited:
+
+
+			Repeatable_read:
+				The queried rows are locked, so other cannot update
+
+			Serializable:
+				Table is locked
+
+
+		3. Pessimistc Locking
+			SELECT * FROM product WHERE id = ? FOR UPDATE
+			Once an entity is locked, other transactions trying to access or update the same entity will have to wait until the lock is released. This ensures that only one transaction can access the entity at a time, preventing concurrency issues.
+			
+			@Lock(LockModeType.PESSIMISTIC_WRITE)
+    		MyEntity findById(Long id);
+
+    		Pros & Cons:
+    		1. + Strong way to prevent con issue
+    		2. - Locks, Waiting so Performance, Deadlocks
+
+		4. Application level locking
+			1. synchronised(lock){
+				...
+				...
+			}
+			2. java.util.concurrent.atomic
+			3. java.util.concurrent.locks.Lock
+
+			
+		
+
+
+		
+		
+		
 
 
 	

@@ -318,12 +318,15 @@ CREATE TABLE IF NOT EXISTS branch_tables(
 
 
 
-CREATE TABLE IF NOT EXISTS Menu(
+CREATE TABLE IF NOT EXISTS menu(
 	restaurant_id BIGINT NOT NULL,
     dish_id BIGINT NOT NULL,
     price int NOT NULL ,
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    version BIGINT NOT NULL DEFAULT 0,
     
     UNIQUE (restaurant_id, dish_id),
+    PRIMARY KEY(id),
     
     FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) 
     ON DELETE CASCADE ON UPDATE NO ACTION,

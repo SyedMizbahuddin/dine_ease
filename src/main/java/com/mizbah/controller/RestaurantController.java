@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mizbah.dto.CityDto;
 import com.mizbah.dto.RestaurantDto;
 import com.mizbah.service.interfaces.RestaurantService;
 
@@ -37,17 +36,6 @@ public class RestaurantController {
 		return ResponseEntity.ok(restaurantService.getRestaurantById(id));
 	}
 
-	@GetMapping("/{id}/branches")
-	ResponseEntity<List<CityDto>> getBranchesByRestaurantId(@PathVariable("id") long id) {
-		return ResponseEntity.ok(restaurantService.getBranchesByRestaurantId(id));
-	}
-
-	@PostMapping("/{restaurant_id}/branches/{city_id}")
-	ResponseEntity<List<CityDto>> createBranch(@PathVariable("restaurant_id") long restaurantId,
-			@PathVariable("city_id") long cityId) {
-		return ResponseEntity.ok(restaurantService.createBranch(restaurantId, cityId));
-	}
-
 	@PostMapping
 	ResponseEntity<RestaurantDto> createRestaurant(@Validated @RequestBody RestaurantDto restaurant) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(restaurantService.createRestaurant(restaurant));
@@ -65,9 +53,4 @@ public class RestaurantController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
-	@DeleteMapping("/{restaurant_id}/branches/{city_id}")
-	ResponseEntity<List<CityDto>> deleteBranch(@PathVariable("restaurant_id") long restaurantId,
-			@PathVariable("city_id") long cityId) {
-		return ResponseEntity.ok(restaurantService.deleteBranch(restaurantId, cityId));
-	}
 }

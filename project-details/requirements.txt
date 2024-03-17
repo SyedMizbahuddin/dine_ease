@@ -6,7 +6,7 @@
 
 2. Restaurant Owner
 	1. Add branches
-	2. Add tables at each branch( city level for simplicity)
+	2. Add tables at each branch
 	3. Add Dishes with price
 	4. View booked tables by customer
 
@@ -72,7 +72,9 @@ Learning:
 	9. Adding @Transactional to update/delete methods only along with @Version
 		for optimistic locking, as very less updates are expected. Not required for
 		Create methods as DB handles duplicate creation based on unique constraints.
-	10. 
+	10. Optimizing queries
+		1. JOIN FETCH
+		2. Fetch.LAZY
 	
 Concurrency:
 	https://medium.com/@bubu.tripathy/managing-concurrent-database-updates-eaf2fe161c48

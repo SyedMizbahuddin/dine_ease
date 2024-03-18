@@ -1,26 +1,20 @@
 package com.mizbah.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.mizbah.adapter.CityAdapter;
-import com.mizbah.adapter.RestaurantAdapter;
-import com.mizbah.dto.CityDto;
-import com.mizbah.dto.RestaurantDto;
+import com.mizbah.adapter.BranchTableAdapter;
+import com.mizbah.dto.BranchTableDto;
 import com.mizbah.entity.Branch;
-import com.mizbah.entity.City;
-import com.mizbah.entity.Restaurant;
-import com.mizbah.exception.DependencyException;
+import com.mizbah.entity.BranchTable;
+import com.mizbah.entity.TableType;
 import com.mizbah.repository.BranchRepository;
-import com.mizbah.repository.CityRepository;
-import com.mizbah.repository.RestaurantRepository;
-import com.mizbah.service.interfaces.BranchService;
+import com.mizbah.repository.BranchTableRepository;
+import com.mizbah.repository.TableTypeRepository;
+import com.mizbah.service.interfaces.BranchTableService;
 
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -28,74 +22,43 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @AllArgsConstructor
 @Service
-public class BranchServiceImpl implements BranchService {
+public class BranchServiceImpl implements BranchTableService {
 
-	RestaurantRepository restaurantRepository;
-	CityRepository cityRepository;
+	BranchTableRepository branchTableRepository;
 	BranchRepository branchRepository;
+	TableTypeRepository tableTypeRepository;
 
-	RestaurantAdapter restaurantAdapter;
-	CityAdapter cityAdapter;
+	BranchTableAdapter branchTableAdapter;
 
 	@Override
-	public List<CityDto> getBranchesByRestaurantId(long restaurantId) {
-		if (!restaurantRepository.existsById(restaurantId)) {
-			throw new EntityNotFoundException("Restaurant not found with ID: " + restaurantId);
+	public BranchTableDto createTable(long branchId, long tableId, BranchTableDto branchTableRequest) {
+		if (branchTableRepository.existsByBranchIdAndTableTypeId(branchId, tableId)) {
+			throw new EntityExistsException("Table at branch exists with Id: " + tableId);
 		}
 
-		Optional<Restaurant> restaurant = restaurantRepository.getBranchesByRestaurantId(restaurantId);
-		if (restaurant.isEmpty()) {
-			// No branches, not an error
-			return new ArrayList<>();
-		}
-		return cityAdapter.toDto(restaurant.get().getCities());
+		Branch branch = branchRepository.findById(branchId).orElseThrow(() -> new EntityNotFoundException(
+				"Branch not found with Id: " + branchId));
+
+		TableType tableType = tableTypeRepository.findById(tableId).orElseThrow(() -> new EntityNotFoundException(
+				"Table type not found with Id: " + tableId));
+
+		BranchTable branchTable = branchTableAdapter.toEntity(branchTableRequest);
+		branchTable.setBranch(branch);
+		branchTable.setTableType(tableType);
+
+		BranchTable savedBranchTable = branchTableRepository.save(branchTable);
+
+		return branchTableAdapter.toDto(savedBranchTable);
 	}
 
 	@Override
-	public List<RestaurantDto> getRestaurantsByCityId(long cityId) {
-		List<Branch> branches = branchRepository.findByCityId(cityId);
-
-		List<Restaurant> restaurants = branches.stream()
-				.map(Branch::getRestaurant)
-				.collect(Collectors.toList());
-
-		return restaurantAdapter.toDto(restaurants);
-	}
-
-	@Override
-	public List<CityDto> createBranch(long restaurantId, long cityId) {
-
-		Restaurant restaurant = restaurantRepository.findById(restaurantId)
-				.orElseThrow(() -> new EntityNotFoundException("Restaurant not found with ID: " + restaurantId));
-
-		City city = cityRepository.findById(cityId)
-				.orElseThrow(() -> new EntityNotFoundException("City not found with ID: " + cityId));
-
-		restaurant.add(city);
-		restaurantRepository.save(restaurant);
-
-		return cityAdapter.toDto(restaurant.getCities());
-	}
-
-	@Override
-	@Transactional
-	public List<CityDto> deleteBranch(long restaurantId, long cityId) {
-		Restaurant restaurant = restaurantRepository.findById(restaurantId)
-				.orElseThrow(() -> new EntityNotFoundException("Restaurant not found with ID: " + restaurantId));
-
-		City city = cityRepository.findById(cityId)
-				.orElseThrow(() -> new EntityNotFoundException("City not found with ID: " + cityId));
-
-		if (restaurant.getCities() == null || !restaurant.getCities().contains(city)) {
-			throw new DependencyException("No branch with id: " + cityId);
+	public List<BranchTableDto> getTablesByBranchId(long branchId) {
+		if (!branchRepository.existsById(branchId)) {
+			throw new EntityNotFoundException("Branch not found with Id: " + branchId);
 		}
-		restaurant.getCities().remove(city);
-		restaurantRepository.save(restaurant);
+		List<BranchTable> tables = branchTableRepository.findByBranchId(branchId);
 
-		// TODO
-		// CASCADE to tables? allow? yes
-		// CASCADE to bookings? allow? yes, with notify
-		return cityAdapter.toDto(restaurant.getCities());
+		return branchTableAdapter.toDto(tables);
 	}
 
 }

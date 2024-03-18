@@ -1,4 +1,4 @@
-package com.mizbah.adapter;
+package com.mizbah.adapter.interfaces;
 
 import java.util.ArrayList;
 import java.util.List;

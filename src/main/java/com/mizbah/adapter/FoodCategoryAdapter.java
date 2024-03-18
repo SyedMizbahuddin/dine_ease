@@ -2,6 +2,7 @@ package com.mizbah.adapter;
 
 import org.springframework.stereotype.Service;
 
+import com.mizbah.adapter.interfaces.AbstractAdapter;
 import com.mizbah.dto.FoodCategoryDto;
 import com.mizbah.entity.FoodCategory;
 

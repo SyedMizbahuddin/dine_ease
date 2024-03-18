@@ -11,10 +11,13 @@
 	4. View booked tables by customer
 
 3. Customer 
-	1. Search by city
-	2. Search by restaurant
-	3. Search by food
+	1. Search restaurant by city
+	2. Search restaurant by name
+	3. Search restaurant by food
+	4. Show available table by time
+	5. Show available table by table type?
 	4. Book table at a restaurant date and start time
+	5. Cancel booking
 	
 4. Admin
 	1. View Restaurant tables and bookings
@@ -26,8 +29,8 @@
 	7. Add table
 
 5. Assumptions
-	1. Each slot is for 1 hour? No
-	2. Can book for only T + 1 day
+	1. Each slot is for 1 hour? Yes
+	2. Can book for only T + 1 day? Yes
 	3. One owner per restaurant? Yes
 	4. Owner has multiple Restaurants? Yes
 	5. User has Multiple roles? Yes
@@ -36,7 +39,7 @@
 	8. Removal supported? Yes
 	9. Restaurant has multiple branches in a city? No
 	10. An owner of an restaurant cannot update details of other restaurant? Obviously
-	11. Image or Blob ? 
+	11. Image or Blob?
 
 6. Design changes
 	1. Existing: branch tables - count, bookings - has Id

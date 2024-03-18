@@ -339,10 +339,8 @@ CREATE TABLE IF NOT EXISTS menu(
 CREATE TABLE IF NOT EXISTS bookings(
 	branch_table_id BIGINT NOT NULL,
     customer_id BIGINT NOT NULL,
-    start_date DATE NOT NULL,
-    end_date DATE NOT NULL,
-    
-    UNIQUE (branch_table_id, customer_id, start_date),
+    start_timestamp DATETIME NOT NULL,
+    end_timestamp DATETIME NOT NULL,
     
     FOREIGN KEY (branch_table_id) REFERENCES branch_tables (id) 
     ON DELETE CASCADE ON UPDATE NO ACTION,

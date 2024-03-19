@@ -13,13 +13,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @Table(name = "roles")
 @Entity
-@Data
+@Getter
+@Setter
 public class Role {
 
 	@Id
@@ -37,6 +39,11 @@ public class Role {
 	public Role(UserRole role) {
 		super();
 		this.role = role;
+	}
+
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", role=" + role + "]";
 	}
 
 }

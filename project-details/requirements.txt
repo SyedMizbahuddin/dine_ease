@@ -102,12 +102,15 @@ Solving Booking:
 		
 		1. Now we want to book a table at other time parallelly? Yes
 	
-	5. Now available : booked(branch_table, start_time) ? boolean
-		If not then we can book
-		So two requests occur both read as available, then try to book, then how?
-		What kind of lock should be applied
-		So here I will use version and all, and add unique constraint for table_id & start so that only one entry is
-		existing. So will use Optimistic locking
+	5. Changed model remove count : 
+		1. available = booked(branch_table, start_time) ? boolean If not then we can book
+		2. So two requests occur both read as available, then try to book, then how?
+		3. What kind of lock should be applied
+		   So here I will use version and all, and add unique constraint for (table_id & start) so that only one entry is
+		   existing. So will use Optimistic locking
+		4. But there will be one more field called status two choices (Either remove or mark status CANCELLED)
+			going with remove so that, unique constraint works.
+		
 	
 Concurrency:
 	https://medium.com/@bubu.tripathy/managing-concurrent-database-updates-eaf2fe161c48

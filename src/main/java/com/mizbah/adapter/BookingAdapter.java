@@ -18,7 +18,6 @@ public class BookingAdapter extends AbstractAdapter<Booking, BookingDto> {
 	public Booking toEntity(BookingDto dto) {
 		return Booking.builder()
 				.startDateTime(dto.getStartDateTime())
-				.endDateTime(dto.getEndDateTime())
 				.build();
 	}
 

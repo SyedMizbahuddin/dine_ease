@@ -6,7 +6,7 @@ import com.mizbah.dto.BranchTableDto;
 
 public interface BranchTableService {
 
-	BranchTableDto createTable(long branchId, long tableId, BranchTableDto branchTableRequest);
+	BranchTableDto createTable(long branchId, long tableId);
 
 	List<BranchTableDto> getTablesByBranchId(long branchId);
 

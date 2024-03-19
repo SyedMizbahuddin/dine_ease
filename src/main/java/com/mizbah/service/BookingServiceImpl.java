@@ -1,6 +1,10 @@
 package com.mizbah.service;
 
+import java.util.Date;
+
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mizbah.adapter.BookingAdapter;
 import com.mizbah.dto.BookingDto;
@@ -23,10 +27,13 @@ public class BookingServiceImpl implements BookingService {
 
 	BookingAdapter bookingAdapter;
 
+	@Transactional
 	@Override
 	public BookingDto bookTable(long branchTableId, BookingDto bookingRequest, User customer) {
 
 		Booking booking = bookingAdapter.toEntity(bookingRequest);
+		Date start = booking.getStartDateTime();
+		Date end = DateUtils.addHours(start, 1);
 
 		return null;
 	}

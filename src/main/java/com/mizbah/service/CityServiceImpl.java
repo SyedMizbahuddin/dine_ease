@@ -66,7 +66,6 @@ public class CityServiceImpl implements CityService {
 		if (!cityRepository.existsById(id)) {
 			throw new EntityNotFoundException("City not found with ID: " + id);
 		}
-		// TODO CASCADE to branches? allow?
 		cityRepository.deleteById(id);
 
 	}

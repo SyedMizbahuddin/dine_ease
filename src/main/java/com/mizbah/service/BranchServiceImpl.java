@@ -1,21 +1,15 @@
 package com.mizbah.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mizbah.adapter.CityAdapter;
-import com.mizbah.adapter.RestaurantAdapter;
-import com.mizbah.dto.CityDto;
-import com.mizbah.dto.RestaurantDto;
+import com.mizbah.adapter.BranchAdapter;
+import com.mizbah.dto.BranchDto;
 import com.mizbah.entity.Branch;
 import com.mizbah.entity.City;
 import com.mizbah.entity.Restaurant;
-import com.mizbah.exception.DependencyException;
 import com.mizbah.repository.BranchRepository;
 import com.mizbah.repository.CityRepository;
 import com.mizbah.repository.RestaurantRepository;
@@ -34,36 +28,31 @@ public class BranchServiceImpl implements BranchService {
 	CityRepository cityRepository;
 	BranchRepository branchRepository;
 
-	RestaurantAdapter restaurantAdapter;
-	CityAdapter cityAdapter;
+	BranchAdapter branchAdapter;
 
 	@Override
-	public List<CityDto> getBranchesByRestaurantId(long restaurantId) {
+	public List<BranchDto> getBranchesByRestaurantId(long restaurantId) {
 		if (!restaurantRepository.existsById(restaurantId)) {
 			throw new EntityNotFoundException("Restaurant not found with ID: " + restaurantId);
 		}
 
-		Optional<Restaurant> restaurant = restaurantRepository.getBranchesByRestaurantId(restaurantId);
-		if (restaurant.isEmpty()) {
-			// No branches, not an error
-			return new ArrayList<>();
-		}
-		return cityAdapter.toDto(restaurant.get().getCities());
+		List<Branch> branches = branchRepository.findByRestaurantId(restaurantId);
+		return branchAdapter.toDto(branches);
 	}
 
 	@Override
-	public List<RestaurantDto> getRestaurantsByCityId(long cityId) {
+	public List<BranchDto> getRestaurantsByCityId(long cityId) {
+		if (!cityRepository.existsById(cityId)) {
+			throw new EntityNotFoundException("City not found with ID: " + cityId);
+		}
+
 		List<Branch> branches = branchRepository.findByCityId(cityId);
 
-		List<Restaurant> restaurants = branches.stream()
-				.map(Branch::getRestaurant)
-				.collect(Collectors.toList());
-
-		return restaurantAdapter.toDto(restaurants);
+		return branchAdapter.toDto(branches);
 	}
 
 	@Override
-	public List<CityDto> createBranch(long restaurantId, long cityId) {
+	public BranchDto createBranch(long restaurantId, long cityId) {
 
 		Restaurant restaurant = restaurantRepository.findById(restaurantId)
 				.orElseThrow(() -> new EntityNotFoundException("Restaurant not found with ID: " + restaurantId));
@@ -71,31 +60,24 @@ public class BranchServiceImpl implements BranchService {
 		City city = cityRepository.findById(cityId)
 				.orElseThrow(() -> new EntityNotFoundException("City not found with ID: " + cityId));
 
-		restaurant.add(city);
-		restaurantRepository.save(restaurant);
+		Branch branch = new Branch();
+		branch.setCity(city);
+		branch.setRestaurant(restaurant);
 
-		return cityAdapter.toDto(restaurant.getCities());
+		Branch savedBranch = branchRepository.save(branch);
+
+		return branchAdapter.toDto(savedBranch);
 	}
 
 	@Override
 	@Transactional
-	public List<CityDto> deleteBranch(long restaurantId, long cityId) {
-		Restaurant restaurant = restaurantRepository.findById(restaurantId)
-				.orElseThrow(() -> new EntityNotFoundException("Restaurant not found with ID: " + restaurantId));
+	public void deleteBranch(long branchId) {
 
-		City city = cityRepository.findById(cityId)
-				.orElseThrow(() -> new EntityNotFoundException("City not found with ID: " + cityId));
-
-		if (restaurant.getCities() == null || !restaurant.getCities().contains(city)) {
-			throw new DependencyException("No branch with id: " + cityId);
+		if (!branchRepository.existsById(branchId)) {
+			throw new EntityNotFoundException("Branch not found with Id: " + branchId);
 		}
-		restaurant.getCities().remove(city);
-		restaurantRepository.save(restaurant);
 
-		// TODO
-		// CASCADE to tables? allow? yes
-		// CASCADE to bookings? allow? yes, with notify
-		return cityAdapter.toDto(restaurant.getCities());
+		branchRepository.deleteById(branchId);
 	}
 
 }

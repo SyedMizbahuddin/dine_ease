@@ -1,19 +1,18 @@
 package com.mizbah.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
@@ -45,16 +44,7 @@ public class Restaurant {
 	@Version
 	private Long version;
 
-	@ManyToMany
-	@JoinTable(name = "branches", joinColumns = @JoinColumn(name = "restaurant_id"), inverseJoinColumns = @JoinColumn(name = "city_id"))
-	private List<City> cities;
-
-	public void add(City city) {
-		if (cities == null) {
-			cities = new ArrayList<>();
-		}
-
-		cities.add(city);
-	}
+	@OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+	private List<Branch> branches;
 
 }

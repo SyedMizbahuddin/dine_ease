@@ -36,7 +36,7 @@ public class Booking {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id")
-	private User user;
+	private User customer;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "start_timestamp")

@@ -80,10 +80,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 		if (!restaurantRepository.existsById(id)) {
 			throw new EntityNotFoundException("Restaurant not found with ID: " + id);
 		}
-		// TODO
-		// CASCADE to branches? Yes
-		// CASCADE to tables? allow? yes
-		// CASCADE to bookings? allow? yes, with notify
+
 		restaurantRepository.deleteById(id);
 
 	}

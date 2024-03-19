@@ -1,6 +1,7 @@
 package com.mizbah.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,12 @@ public class BookingServiceImpl implements BookingService {
 
 	BookingAdapter bookingAdapter;
 
+	@Override
+	public List<BookingDto> getBookings(User customer) {
+		List<Booking> bookings = bookingRepository.findByCustomerId(customer.getId());
+		return bookingAdapter.toDto(bookings);
+	}
+
 	@Transactional
 	@Override
 	public BookingDto bookTable(long branchTableId, BookingDto bookingRequest, User customer) {
@@ -47,7 +54,7 @@ public class BookingServiceImpl implements BookingService {
 
 		booking.setEndDateTime(end);
 		booking.setStartDateTime(start);
-		booking.setUser(customer);
+		booking.setCustomer(customer);
 		booking.setBranchTable(branchTable);
 
 		bookingRepository.save(booking);

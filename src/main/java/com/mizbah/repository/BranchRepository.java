@@ -10,4 +10,5 @@ public interface BranchRepository extends JpaRepository<Branch, Long> {
 
 	List<Branch> findByCityId(Long cityId);
 
+	List<Branch> findByRestaurantId(Long restaurantId);
 }

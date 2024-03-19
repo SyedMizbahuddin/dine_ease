@@ -50,12 +50,12 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-	public RestaurantDto createRestaurant(RestaurantDto restaurantRequest) {
+	public RestaurantDto createRestaurant(RestaurantDto restaurantRequest, Long ownerId) {
 
-		Optional<User> user = userRepository.findById(restaurantRequest.getOwnerId());
+		Optional<User> user = userRepository.findById(ownerId);
 
 		if (user.isEmpty()) {
-			throw new DependencyException("Owner not found with Id: " + restaurantRequest.getOwnerId());
+			throw new DependencyException("Owner not found with Id: " + ownerId);
 		}
 
 		Restaurant restaurant = restaurantAdapter.toEntity(restaurantRequest);

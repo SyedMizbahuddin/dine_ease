@@ -10,7 +10,7 @@ public interface RestaurantService {
 
 	RestaurantDto getRestaurantById(long id);
 
-	RestaurantDto createRestaurant(RestaurantDto restaurant);
+	RestaurantDto createRestaurant(RestaurantDto restaurant, Long ownerId);
 
 	RestaurantDto updateRestaurant(long id, RestaurantDto restaurant);
 

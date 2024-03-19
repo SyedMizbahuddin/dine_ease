@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mizbah.dto.RestaurantDto;
+import com.mizbah.entity.User;
 import com.mizbah.service.interfaces.RestaurantService;
 
 import lombok.AllArgsConstructor;
@@ -43,8 +45,12 @@ public class RestaurantController {
 	}
 
 	@PostMapping
-	ResponseEntity<RestaurantDto> createRestaurant(@Validated @RequestBody RestaurantDto restaurant) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(restaurantService.createRestaurant(restaurant));
+	ResponseEntity<RestaurantDto> createRestaurant(@Validated @RequestBody RestaurantDto restaurant,
+			Authentication authentication) {
+		User user = (User) authentication.getPrincipal();
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(restaurantService.createRestaurant(restaurant, user
+				.getId()));
 	}
 
 	@PutMapping("/{id}")

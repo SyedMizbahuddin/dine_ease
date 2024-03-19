@@ -19,5 +19,4 @@ public class RestaurantDto {
 
 	private Long id;
 
-	private Long ownerId;
 }

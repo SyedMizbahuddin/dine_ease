@@ -49,8 +49,7 @@ public class RestaurantController {
 			Authentication authentication) {
 		User user = (User) authentication.getPrincipal();
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(restaurantService.createRestaurant(restaurant, user
-				.getId()));
+		return ResponseEntity.status(HttpStatus.CREATED).body(restaurantService.createRestaurant(restaurant, user));
 	}
 
 	@PutMapping("/{id}")

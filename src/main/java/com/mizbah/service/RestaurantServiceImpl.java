@@ -10,9 +10,7 @@ import com.mizbah.adapter.RestaurantAdapter;
 import com.mizbah.dto.RestaurantDto;
 import com.mizbah.entity.Restaurant;
 import com.mizbah.entity.User;
-import com.mizbah.exception.DependencyException;
 import com.mizbah.repository.RestaurantRepository;
-import com.mizbah.repository.UserRepository;
 import com.mizbah.service.interfaces.RestaurantService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -25,7 +23,6 @@ import lombok.extern.log4j.Log4j2;
 public class RestaurantServiceImpl implements RestaurantService {
 
 	RestaurantRepository restaurantRepository;
-	UserRepository userRepository;
 
 	RestaurantAdapter restaurantAdapter;
 
@@ -50,16 +47,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-	public RestaurantDto createRestaurant(RestaurantDto restaurantRequest, Long ownerId) {
-
-		Optional<User> user = userRepository.findById(ownerId);
-
-		if (user.isEmpty()) {
-			throw new DependencyException("Owner not found with Id: " + ownerId);
-		}
+	public RestaurantDto createRestaurant(RestaurantDto restaurantRequest, User owner) {
 
 		Restaurant restaurant = restaurantAdapter.toEntity(restaurantRequest);
-		restaurant.setOwner(user.get());
+		restaurant.setOwner(owner);
 
 		restaurantRepository.save(restaurant);
 

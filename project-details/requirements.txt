@@ -78,6 +78,8 @@ Learning:
 	10. Optimizing queries
 		1. JOIN FETCH
 		2. Fetch.LAZY
+	11. Annotation based validation
+	12. Delete CASCADE food -> dish -> menu
 		
 Solving Booking:
 	1. Context branch_tables(table_id, count)

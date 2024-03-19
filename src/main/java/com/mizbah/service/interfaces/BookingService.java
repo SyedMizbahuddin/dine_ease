@@ -7,4 +7,6 @@ public interface BookingService {
 
 	BookingDto bookTable(long branchTableId, BookingDto bookingRequest, User customer);
 
+	void cancelBooking(long bookingId);
+
 }

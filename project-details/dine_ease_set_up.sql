@@ -339,6 +339,9 @@ CREATE TABLE IF NOT EXISTS bookings(
     customer_id BIGINT NOT NULL,
     start_timestamp DATETIME NOT NULL,
     end_timestamp DATETIME NOT NULL,
+    id BIGINT NOT NULL AUTO_INCREMENT, 
+    
+	PRIMARY KEY (id),
     
     UNIQUE(branch_table_id, start_timestamp),
     

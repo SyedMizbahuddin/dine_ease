@@ -303,10 +303,8 @@ INSERT INTO table_types (chairs, name) VALUES
 CREATE TABLE IF NOT EXISTS branch_tables(
 	branch_id BIGINT NOT NULL,
     table_id BIGINT NOT NULL,
-    count int NOT NULL ,
     id BIGINT NOT NULL AUTO_INCREMENT,
     
-    UNIQUE (branch_id, table_id),
     PRIMARY KEY (id),
     
     FOREIGN KEY (branch_id) REFERENCES branches (id) 
@@ -341,6 +339,8 @@ CREATE TABLE IF NOT EXISTS bookings(
     customer_id BIGINT NOT NULL,
     start_timestamp DATETIME NOT NULL,
     end_timestamp DATETIME NOT NULL,
+    
+    UNIQUE(branch_table_id, start_timestamp),
     
     FOREIGN KEY (branch_table_id) REFERENCES branch_tables (id) 
     ON DELETE CASCADE ON UPDATE NO ACTION,

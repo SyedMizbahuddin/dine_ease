@@ -12,6 +12,5 @@ import lombok.NoArgsConstructor;
 public class BranchTableDto {
 
 	private Long id;
-	private int count;
 	private TableTypeDto tableType;
 }

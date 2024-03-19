@@ -33,6 +33,4 @@ public class BranchTable {
 	@JoinColumn(name = "branch_id")
 	private Branch branch;
 
-	private int count;
-
 }

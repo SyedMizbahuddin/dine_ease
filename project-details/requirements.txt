@@ -78,6 +78,36 @@ Learning:
 	10. Optimizing queries
 		1. JOIN FETCH
 		2. Fetch.LAZY
+		
+Solving Booking:
+	1. Context branch_tables(table_id, count)
+				bookings(branch_tables_id, start, end)
+	2. Should we change the schema? possibly
+	3. Request(branch_table_id, start, end = start + 1 hr)
+		To check Availability count(branch_table) - booked(branch_table, start_time)
+		count - tables booked at given time
+		
+		Now we can apply pessimistic lock when findById(branch_table) it means no body will be able to make update to branch_table
+		but we are not making any update anyway. Lets say they are not allowed to even read it, then
+		Let's say there are 4 round tables, then when I'm booking 1 round table for 3pm to 4pm
+		Then no body will be able to book the other table at same time or at any time.
+		This is serious issue to concurrency and performance.
+		If there is only one type of table at a branch then it will be serial booking in a way. 
+		
+	4. What can we do?
+		1. Should we remove count? I think so
+		2. We give each table a number table no. 1, 2, 3 and keep adding it? ok
+		3. So it will be round table 1, round table 2, High table 1.....
+		4. This will improve the other table lock issue
+		
+		1. Now we want to book a table at other time parallelly? Yes
+	
+	5. Now available : booked(branch_table, start_time) ? boolean
+		If not then we can book
+		So two requests occur both read as available, then try to book, then how?
+		What kind of lock should be applied
+		So here I will use version and all, and add unique constraint for table_id & start so that only one entry is
+		existing. So will use Optimistic locking
 	
 Concurrency:
 	https://medium.com/@bubu.tripathy/managing-concurrent-database-updates-eaf2fe161c48

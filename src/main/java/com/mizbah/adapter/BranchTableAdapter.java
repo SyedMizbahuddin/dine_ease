@@ -16,14 +16,13 @@ public class BranchTableAdapter extends AbstractAdapter<BranchTable, BranchTable
 
 	@Override
 	public BranchTable toEntity(BranchTableDto dto) {
-		return BranchTable.builder().count(dto.getCount()).build();
+		return BranchTable.builder().build();
 	}
 
 	@Override
 	public BranchTableDto toDto(BranchTable entity) {
 		return BranchTableDto.builder()
 				.id(entity.getId())
-				.count(entity.getCount())
 				.tableType(tableTypeAdapter.toDto(entity.getTableType()))
 				.build();
 

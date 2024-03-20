@@ -6,6 +6,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -125,6 +126,16 @@ public class ExceptionInterceptor {
 
 		ErrorResponse error = new ErrorResponse(e.getMessage(), HttpStatus.UNAUTHORIZED.value());
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNAUTHORIZED);
+	}
+
+	@ExceptionHandler(AccessDeniedException.class)
+	@ResponseStatus(code = HttpStatus.FORBIDDEN)
+	public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
+
+		log.error("Got AccessDeniedException");
+
+		ErrorResponse error = new ErrorResponse(e.getMessage(), HttpStatus.FORBIDDEN.value());
+		return new ResponseEntity<ErrorResponse>(error, HttpStatus.FORBIDDEN);
 	}
 
 	@ExceptionHandler(RuntimeException.class)

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,12 +37,14 @@ public class MenuController {
 		return ResponseEntity.ok(menuService.getRestaurantsByDishId(dishId));
 	}
 
+	@PreAuthorize("hasPermission(#restaurantId, 'restaurant')")
 	@PostMapping("/{restaurant_id}/menu/{dish_id}")
 	ResponseEntity<MenuDto> createMenuItem(@PathVariable("restaurant_id") long restaurantId,
 			@PathVariable("dish_id") long dishId, @RequestBody MenuRequest menuRequest) {
 		return ResponseEntity.ok(menuService.createMenuItem(restaurantId, dishId, menuRequest));
 	}
 
+	@PreAuthorize("hasPermission(#menuId, 'menu')")
 	@DeleteMapping("/menu/{menu_id}")
 	ResponseEntity<?> deleteMenuItem(@PathVariable("menu_id") long menuId) {
 		menuService.deleteMenuItem(menuId);

@@ -10,6 +10,7 @@ import com.mizbah.dto.BranchDto;
 import com.mizbah.entity.Branch;
 import com.mizbah.entity.City;
 import com.mizbah.entity.Restaurant;
+import com.mizbah.entity.User;
 import com.mizbah.repository.BranchRepository;
 import com.mizbah.repository.CityRepository;
 import com.mizbah.repository.RestaurantRepository;
@@ -78,6 +79,15 @@ public class BranchServiceImpl implements BranchService {
 		}
 
 		branchRepository.deleteById(branchId);
+	}
+
+	@Override
+	public boolean isOwner(Long branchId, User authUser) {
+		Branch branch = branchRepository.findById(branchId).orElseThrow(() -> new EntityNotFoundException(
+				"Branch not found with Id: " + branchId));
+
+		Long ownerId = branch.getRestaurant().getOwner().getId();
+		return ownerId.equals(authUser.getId());
 	}
 
 }

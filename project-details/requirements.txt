@@ -54,7 +54,7 @@
 	4. Spring Data JPA
 	5. Spring security
 	6. Unit test cases
-	7. Validation: An owner cannot update details of other restaurant
+	7. Authorization: An owner cannot update details of other restaurant
 	8. Documentation
 
 7. Future Enhancements
@@ -71,7 +71,7 @@ Learning:
 		first filter and map to resolver, also handle RuntimeException
 	6. JOIN FETCH to avoid N + 1
 	7. Data JPA updates all fields by default fetch and update
-	8. RBAC ABAC
+	8. Role Based Access Control
 	9. Adding @Transactional to update/delete methods only along with @Version
 		for optimistic locking, as very less updates are expected. Not required for
 		Create methods as DB handles duplicate creation based on unique constraints.
@@ -88,6 +88,10 @@ Learning:
 	14. Pick user from Authentication, do not pass Id
 	15. Implement UserDetails with our entity for using Id
 	16. Event Listeners to notify User on deletion of booking PostRemove 
+	17. Attribute Based Access Control - PermissionEvaluator
+		DefaultEvaluator -> DenyAllPE
+		Create Bean of DefaultMethodSecurityHandler and set PE to CustomPE
+		ABAC on Restaurant, Branch, Branch table, Booking
 	
 		
 Solving Booking:

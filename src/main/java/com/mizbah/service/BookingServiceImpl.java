@@ -80,4 +80,13 @@ public class BookingServiceImpl implements BookingService {
 		bookingRepository.deleteById(bookingId);
 	}
 
+	@Override
+	public boolean isCustomer(Long bookingId, User authUser) {
+		Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new EntityNotFoundException(
+				"Booking not found with Id: " + bookingId));
+
+		Long ownerId = booking.getCustomer().getId();
+		return ownerId.equals(authUser.getId());
+	}
+
 }

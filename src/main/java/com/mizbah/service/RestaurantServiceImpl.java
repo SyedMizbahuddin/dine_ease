@@ -1,7 +1,6 @@
 package com.mizbah.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,11 +33,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 	@Override
 	public RestaurantDto getRestaurantById(long id) {
-		Optional<Restaurant> restaurant = restaurantRepository.findById(id);
-		if (restaurant.isEmpty()) {
-			throw new EntityNotFoundException("Restaurant not found with ID: " + id);
-		}
-		return restaurantAdapter.toDto(restaurant.get());
+		Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(
+				"Restaurant not found with ID: " + id));
+
+		return restaurantAdapter.toDto(restaurant);
 	}
 
 	@Override
@@ -85,6 +83,16 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 		restaurantRepository.deleteById(id);
 
+	}
+
+	@Override
+	public boolean isOwner(Long restaurantId, User authUser) {
+		Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(
+				() -> new EntityNotFoundException(
+						"Restaurant not found with ID: " + restaurantId));
+
+		Long ownerId = restaurant.getOwner().getId();
+		return ownerId.equals(authUser.getId());
 	}
 
 }

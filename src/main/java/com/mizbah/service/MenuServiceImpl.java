@@ -14,6 +14,7 @@ import com.mizbah.dto.request.MenuRequest;
 import com.mizbah.entity.Dish;
 import com.mizbah.entity.Menu;
 import com.mizbah.entity.Restaurant;
+import com.mizbah.entity.User;
 import com.mizbah.repository.DishRepository;
 import com.mizbah.repository.MenuRepository;
 import com.mizbah.repository.RestaurantRepository;
@@ -88,6 +89,15 @@ public class MenuServiceImpl implements MenuService {
 
 		menuRepository.deleteById(menuId);
 
+	}
+
+	@Override
+	public boolean isOwner(Long menuId, User authUser) {
+		Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new EntityNotFoundException(
+				"Menu item not found with Id: " + menuId));
+
+		Long ownerId = menu.getRestaurant().getOwner().getId();
+		return ownerId.equals(authUser.getId());
 	}
 
 }

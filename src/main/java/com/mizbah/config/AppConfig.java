@@ -2,6 +2,9 @@ package com.mizbah.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +20,11 @@ public class AppConfig {
 	}
 
 	@Bean
+	PermissionEvaluator permissionEvaluator() {
+		return new CustomPermissionEvaluator();
+	}
+
+	@Bean
 	AuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 		authProvider.setUserDetailsService(userDetailsService());
@@ -29,4 +37,12 @@ public class AppConfig {
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+
+	@Bean
+	MethodSecurityExpressionHandler methodSecurityExpressionHandler() {
+		DefaultMethodSecurityExpressionHandler defaultMethodSecurityExpressionHandler = new DefaultMethodSecurityExpressionHandler();
+		defaultMethodSecurityExpressionHandler.setPermissionEvaluator(permissionEvaluator());
+		return defaultMethodSecurityExpressionHandler;
+	}
+
 }

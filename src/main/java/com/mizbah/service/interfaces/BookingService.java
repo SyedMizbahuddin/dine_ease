@@ -16,4 +16,6 @@ public interface BookingService {
 
 	List<BookingDto> getBookingsByRestaurantId(long restaurantId);
 
+	boolean isCustomer(Long bookingId, User authUser);
+
 }

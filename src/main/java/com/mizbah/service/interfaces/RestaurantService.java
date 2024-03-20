@@ -20,4 +20,6 @@ public interface RestaurantService {
 
 	List<RestaurantDto> getRestaurantByName(String name);
 
+	boolean isOwner(Long restaurantId, User authUser);
+
 }

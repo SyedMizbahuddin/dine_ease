@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,12 +34,14 @@ public class BranchController {
 		return ResponseEntity.ok(branchService.getRestaurantsByCityId(cityId));
 	}
 
+	@PreAuthorize("hasPermission(#restaurantId, 'restaurant')")
 	@PostMapping("/{restaurant_id}/branches/{city_id}")
 	ResponseEntity<BranchDto> createBranch(@PathVariable("restaurant_id") long restaurantId,
 			@PathVariable("city_id") long cityId) {
 		return ResponseEntity.ok(branchService.createBranch(restaurantId, cityId));
 	}
 
+	@PreAuthorize("hasPermission(#branchId, 'branch')")
 	@DeleteMapping("/branches/{branch_id}")
 	ResponseEntity<?> deleteBranch(@PathVariable("branch_id") long branchId) {
 		branchService.deleteBranch(branchId);

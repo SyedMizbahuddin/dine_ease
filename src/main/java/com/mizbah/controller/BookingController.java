@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,6 +48,7 @@ public class BookingController {
 		return ResponseEntity.ok(bookingService.bookTable(branchTableId, bookingRequest, user));
 	}
 
+	@PreAuthorize("hasPermission(#bookingId, 'booking')")
 	@DeleteMapping("/{booking_id}")
 	ResponseEntity<?> cancelBooking(@PathVariable("booking_id") long bookingId) {
 		bookingService.cancelBooking(bookingId);

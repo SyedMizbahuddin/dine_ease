@@ -73,7 +73,7 @@ public class BookingServiceImpl implements BookingService {
 	@Override
 	public void cancelBooking(long bookingId) {
 
-		if (bookingRepository.existsById(bookingId)) {
+		if (!bookingRepository.existsById(bookingId)) {
 			throw new EntityNotFoundException("Booking not found with Id: " + bookingId);
 		}
 

@@ -87,7 +87,7 @@ Learning:
 	13. Separate DTO for request with Validations
 	14. Pick user from Authentication, do not pass Id
 	15. Implement UserDetails with our entity for using Id
-	16. 
+	16. Event Listeners to notify User on deletion of booking PostRemove 
 	
 		
 Solving Booking:

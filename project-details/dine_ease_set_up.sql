@@ -353,6 +353,19 @@ CREATE TABLE IF NOT EXISTS bookings(
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
 
 
+CREATE TABLE IF NOT EXISTS notifications(
+    customer_id BIGINT NOT NULL,
+    start_timestamp DATETIME NOT NULL,
+    end_timestamp DATETIME NOT NULL,
+    id BIGINT NOT NULL AUTO_INCREMENT, 
+    
+	PRIMARY KEY (id),
+    
+    FOREIGN KEY (customer_id) REFERENCES users (id) 
+    ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1;
+
+
 
 
     

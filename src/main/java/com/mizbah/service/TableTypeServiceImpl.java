@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mizbah.adapter.TableTypeAdapter;
 import com.mizbah.dto.TableTypeDto;
+import com.mizbah.dto.request.TableTypeRequest;
 import com.mizbah.entity.TableType;
 import com.mizbah.repository.TableTypeRepository;
 import com.mizbah.service.interfaces.TableTypeService;
@@ -39,22 +40,26 @@ public class TableTypeServiceImpl implements TableTypeService {
 	}
 
 	@Override
-	public TableTypeDto createTableType(TableTypeDto tableTypeRequest) {
-		TableType tableType = tableTypeAdapter.toEntity(tableTypeRequest);
+	public TableTypeDto createTableType(TableTypeRequest tableTypeRequest) {
+		TableType tableType = new TableType();
+		tableType.setChairs(tableTypeRequest.getChairs());
+		tableType.setName(tableTypeRequest.getName());
+
 		tableTypeRepository.save(tableType);
 		return tableTypeAdapter.toDto(tableType);
 	}
 
 	@Transactional
 	@Override
-	public TableTypeDto updateTableType(long id, TableTypeDto tableTypeRequest) {
+	public TableTypeDto updateTableType(long id, TableTypeRequest tableTypeRequest) {
 
-		if (!tableTypeRepository.existsById(id)) {
-			throw new EntityNotFoundException("TableType not found with ID: " + id);
-		}
+		TableType tableType = tableTypeRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(
+						"Table type not found with ID: " + id));
 
-		TableType tableType = tableTypeAdapter.toEntity(tableTypeRequest);
-		tableType.setId(id);
+		tableType.setChairs(tableTypeRequest.getChairs());
+		tableType.setName(tableTypeRequest.getName());
+
 		tableTypeRepository.save(tableType);
 		return tableTypeAdapter.toDto(tableType);
 
@@ -66,7 +71,7 @@ public class TableTypeServiceImpl implements TableTypeService {
 		if (!tableTypeRepository.existsById(id)) {
 			throw new EntityNotFoundException("TableType not found with ID: " + id);
 		}
-		
+
 		tableTypeRepository.deleteById(id);
 
 	}

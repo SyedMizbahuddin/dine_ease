@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mizbah.dto.CityDto;
+import com.mizbah.dto.request.CityRequest;
 import com.mizbah.service.interfaces.CityService;
 
 import lombok.AllArgsConstructor;
@@ -37,12 +38,12 @@ public class CityController {
 	}
 
 	@PostMapping
-	ResponseEntity<CityDto> createCity(@Validated @RequestBody CityDto city) {
+	ResponseEntity<CityDto> createCity(@Validated @RequestBody CityRequest city) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(cityService.createCity(city));
 	}
 
 	@PutMapping("/{id}")
-	ResponseEntity<CityDto> updateCity(@PathVariable("id") long id, @Validated @RequestBody CityDto city) {
+	ResponseEntity<CityDto> updateCity(@PathVariable("id") long id, @Validated @RequestBody CityRequest city) {
 		return ResponseEntity.ok(cityService.updateCity(id, city));
 	}
 

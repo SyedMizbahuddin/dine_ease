@@ -1,10 +1,12 @@
-package com.mizbah.dto;
+package com.mizbah.dto.request;
 
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.mizbah.dto.request.BookingRequest;
+import com.mizbah.validation.annotation.WithinTimeRange;
 
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,11 +16,11 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class BookingDto extends BookingRequest {
+public class BookingRequest {
 
-	private Long id;
-	private Long branchTableId;
-
+	@NotNull(message = "Start date time must be provided")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm", timezone = "Asia/Kolkata")
-	private Date endDateTime;
+	@Future
+	@WithinTimeRange(start = "08:00", end = "22:00")
+	private Date startDateTime;
 }

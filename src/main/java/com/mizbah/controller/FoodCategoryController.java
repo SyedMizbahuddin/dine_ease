@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mizbah.dto.FoodCategoryDto;
+import com.mizbah.dto.request.FoodCategoryRequest;
 import com.mizbah.service.interfaces.FoodCategoryService;
 
 import lombok.AllArgsConstructor;
@@ -37,13 +38,13 @@ public class FoodCategoryController {
 	}
 
 	@PostMapping
-	ResponseEntity<FoodCategoryDto> createFoodCategory(@Validated @RequestBody FoodCategoryDto foodCategory) {
+	ResponseEntity<FoodCategoryDto> createFoodCategory(@Validated @RequestBody FoodCategoryRequest foodCategory) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(foodCategoryService.createFoodCategory(foodCategory));
 	}
 
 	@PutMapping("/{id}")
 	ResponseEntity<FoodCategoryDto> updateFoodCategory(@PathVariable("id") long id,
-			@Validated @RequestBody FoodCategoryDto foodCategory) {
+			@Validated @RequestBody FoodCategoryRequest foodCategory) {
 		return ResponseEntity.ok(foodCategoryService.updateFoodCategory(id, foodCategory));
 	}
 

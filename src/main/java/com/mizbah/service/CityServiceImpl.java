@@ -1,13 +1,13 @@
 package com.mizbah.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mizbah.adapter.CityAdapter;
 import com.mizbah.dto.CityDto;
+import com.mizbah.dto.request.CityRequest;
 import com.mizbah.entity.City;
 import com.mizbah.repository.CityRepository;
 import com.mizbah.service.interfaces.CityService;
@@ -31,30 +31,28 @@ public class CityServiceImpl implements CityService {
 
 	@Override
 	public CityDto getCityById(long id) {
-		Optional<City> city = cityRepository.findById(id);
-		if (city.isEmpty()) {
-			throw new EntityNotFoundException("City not found with ID: " + id);
-		}
-		return cityAdapter.toDto(city.get());
+		City city = cityRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("City not found with ID: "
+				+ id));
+		return cityAdapter.toDto(city);
 	}
 
 	@Override
-	public CityDto createCity(CityDto cityRequest) {
-		City city = cityAdapter.toEntity(cityRequest);
+	public CityDto createCity(CityRequest cityRequest) {
+		City city = new City();
+		city.setCity(cityRequest.getCity());
+
 		cityRepository.save(city);
 		return cityAdapter.toDto(city);
 	}
 
 	@Transactional
 	@Override
-	public CityDto updateCity(long id, CityDto cityRequest) {
+	public CityDto updateCity(long id, CityRequest cityRequest) {
 
-		if (!cityRepository.existsById(id)) {
-			throw new EntityNotFoundException("City not found with ID: " + id);
-		}
+		City city = cityRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("City not found with ID: "
+				+ id));
+		city.setCity(cityRequest.getCity());
 
-		City city = cityAdapter.toEntity(cityRequest);
-		city.setId(id);
 		cityRepository.save(city);
 		return cityAdapter.toDto(city);
 

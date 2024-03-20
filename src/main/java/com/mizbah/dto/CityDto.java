@@ -1,18 +1,17 @@
 package com.mizbah.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import com.mizbah.dto.request.CityRequest;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class CityDto {
+public class CityDto extends CityRequest {
 
-	@NotBlank(message = "City shoud be not blank")
-	private String city;
 	private Long id;
 }

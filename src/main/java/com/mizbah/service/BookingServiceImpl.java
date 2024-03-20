@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mizbah.adapter.BookingAdapter;
 import com.mizbah.dto.BookingDto;
+import com.mizbah.dto.request.BookingRequest;
 import com.mizbah.entity.Booking;
 import com.mizbah.entity.BranchTable;
 import com.mizbah.entity.User;
@@ -39,7 +40,7 @@ public class BookingServiceImpl implements BookingService {
 
 	@Transactional
 	@Override
-	public BookingDto bookTable(long branchTableId, BookingDto bookingRequest, User customer) {
+	public BookingDto bookTable(long branchTableId, BookingRequest bookingRequest, User customer) {
 
 		if (bookingRepository.existsByBranchTableIdAndStartDateTime(branchTableId, bookingRequest.getStartDateTime())) {
 			throw new EntityExistsException("Table already booked at requested time");
@@ -48,7 +49,7 @@ public class BookingServiceImpl implements BookingService {
 		BranchTable branchTable = branchTableRepository.findById(branchTableId).orElseThrow(
 				() -> new EntityNotFoundException("Branch table not found with Id: " + branchTableId));
 
-		Booking booking = bookingAdapter.toEntity(bookingRequest);
+		Booking booking = new Booking();
 		Date start = booking.getStartDateTime();
 		Date end = DateUtils.addHours(start, 1);
 

@@ -1,4 +1,4 @@
-package com.mizbah.dto;
+package com.mizbah.dto.request;
 
 import lombok.Data;
 

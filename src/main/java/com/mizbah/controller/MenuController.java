@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mizbah.dto.MenuDto;
 import com.mizbah.dto.RestaurantDto;
+import com.mizbah.dto.request.MenuRequest;
 import com.mizbah.service.interfaces.MenuService;
 
 import lombok.AllArgsConstructor;
@@ -37,14 +38,13 @@ public class MenuController {
 
 	@PostMapping("/{restaurant_id}/menu/{dish_id}")
 	ResponseEntity<MenuDto> createMenuItem(@PathVariable("restaurant_id") long restaurantId,
-			@PathVariable("dish_id") long dishId, @RequestBody MenuDto menuRequest) {
+			@PathVariable("dish_id") long dishId, @RequestBody MenuRequest menuRequest) {
 		return ResponseEntity.ok(menuService.createMenuItem(restaurantId, dishId, menuRequest));
 	}
 
-	@DeleteMapping("/{restaurant_id}/menu/{dish_id}")
-	ResponseEntity<?> deleteMenuItem(@PathVariable("restaurant_id") long restaurantId,
-			@PathVariable("dish_id") long dishId) {
-		menuService.deleteMenuItem(restaurantId, dishId);
+	@DeleteMapping("/menu/{menu_id}")
+	ResponseEntity<?> deleteMenuItem(@PathVariable("menu_id") long menuId) {
+		menuService.deleteMenuItem(menuId);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 

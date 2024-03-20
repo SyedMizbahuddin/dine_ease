@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mizbah.adapter.FoodCategoryAdapter;
 import com.mizbah.dto.FoodCategoryDto;
+import com.mizbah.dto.request.FoodCategoryRequest;
 import com.mizbah.entity.FoodCategory;
 import com.mizbah.repository.FoodCategoryRepository;
 import com.mizbah.service.interfaces.FoodCategoryService;
@@ -39,23 +40,27 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
 	}
 
 	@Override
-	public FoodCategoryDto createFoodCategory(FoodCategoryDto foodCategoryRequest) {
-		FoodCategory foodCategory = foodCategoryAdapter.toEntity(foodCategoryRequest);
+	public FoodCategoryDto createFoodCategory(FoodCategoryRequest foodCategoryRequest) {
+		FoodCategory foodCategory = new FoodCategory();
+		foodCategory.setImage(foodCategoryRequest.getImage());
+		foodCategory.setName(foodCategoryRequest.getName());
+
 		foodCategoryRepository.save(foodCategory);
 		return foodCategoryAdapter.toDto(foodCategory);
 	}
 
 	@Transactional
 	@Override
-	public FoodCategoryDto updateFoodCategory(long id, FoodCategoryDto foodCategoryRequest) {
+	public FoodCategoryDto updateFoodCategory(long id, FoodCategoryRequest foodCategoryRequest) {
 
-		if (!foodCategoryRepository.existsById(id)) {
-			throw new EntityNotFoundException("FoodCategory not found with ID: " + id);
-		}
+		FoodCategory foodCategory = foodCategoryRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(
+				"FoodCategory not found with ID: " + id));
 
-		FoodCategory foodCategory = foodCategoryAdapter.toEntity(foodCategoryRequest);
-		foodCategory.setId(id);
+		foodCategory.setImage(foodCategoryRequest.getImage());
+		foodCategory.setName(foodCategoryRequest.getName());
+
 		foodCategoryRepository.save(foodCategory);
+
 		return foodCategoryAdapter.toDto(foodCategory);
 
 	}
@@ -66,7 +71,7 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
 		if (!foodCategoryRepository.existsById(id)) {
 			throw new EntityNotFoundException("FoodCategory not found with ID: " + id);
 		}
-		//cascades to dishes
+		// cascades to dishes
 		foodCategoryRepository.deleteById(id);
 
 	}

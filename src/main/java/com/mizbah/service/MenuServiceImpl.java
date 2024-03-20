@@ -10,6 +10,7 @@ import com.mizbah.adapter.MenuAdapter;
 import com.mizbah.adapter.RestaurantAdapter;
 import com.mizbah.dto.MenuDto;
 import com.mizbah.dto.RestaurantDto;
+import com.mizbah.dto.request.MenuRequest;
 import com.mizbah.entity.Dish;
 import com.mizbah.entity.Menu;
 import com.mizbah.entity.Restaurant;
@@ -57,7 +58,7 @@ public class MenuServiceImpl implements MenuService {
 
 	@Transactional
 	@Override
-	public MenuDto createMenuItem(long restaurantId, long dishId, MenuDto menuRequest) {
+	public MenuDto createMenuItem(long restaurantId, long dishId, MenuRequest menuRequest) {
 
 		if (menuRepository.existsByRestaurantIdAndDishId(restaurantId, dishId)) {
 			throw new EntityExistsException("Menu item already exists with dish Id: " + dishId);
@@ -80,14 +81,13 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public void deleteMenuItem(long restaurantId, long dishId) {
-		if (!menuRepository.existsByRestaurantIdAndDishId(restaurantId, dishId)) {
-			throw new EntityNotFoundException("Menu item not found with dish Id: " + dishId);
+	public void deleteMenuItem(long menuId) {
+		if (!menuRepository.existsById(menuId)) {
+			throw new EntityNotFoundException("Menu item not found with Id: " + menuId);
 		}
 
-		Menu menu = menuRepository.findByRestaurantIdAndDishId(restaurantId, dishId);
+		menuRepository.deleteById(menuId);
 
-		menuRepository.delete(menu);
 	}
 
 }

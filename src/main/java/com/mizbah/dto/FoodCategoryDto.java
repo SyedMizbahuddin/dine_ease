@@ -1,19 +1,17 @@
 package com.mizbah.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import com.mizbah.dto.request.FoodCategoryRequest;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class FoodCategoryDto {
+public class FoodCategoryDto extends FoodCategoryRequest {
 
-	@NotBlank(message = "Name shoud be not blank")
-	private String name;
-	private String image;
 	private Long id;
 }

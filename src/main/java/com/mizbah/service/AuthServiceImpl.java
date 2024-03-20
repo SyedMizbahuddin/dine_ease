@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mizbah.config.JwtService;
-import com.mizbah.dto.LoginRequest;
 import com.mizbah.dto.LoginResponse;
-import com.mizbah.dto.SignupRequest;
 import com.mizbah.dto.UserDto;
+import com.mizbah.dto.request.LoginRequest;
+import com.mizbah.dto.request.SignupRequest;
 import com.mizbah.entity.Role;
 import com.mizbah.entity.User;
 import com.mizbah.repository.UserRepository;

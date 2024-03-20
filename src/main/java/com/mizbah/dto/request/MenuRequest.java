@@ -1,7 +1,6 @@
-package com.mizbah.dto;
+package com.mizbah.dto.request;
 
-import com.mizbah.dto.request.RestaurantRequest;
-
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,8 +10,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class RestaurantDto extends RestaurantRequest {
+public class MenuRequest {
 
-	private Long id;
-
+	@Positive
+	private int price;
 }

@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mizbah.dto.LoginRequest;
 import com.mizbah.dto.LoginResponse;
-import com.mizbah.dto.SignupRequest;
 import com.mizbah.dto.UserDto;
+import com.mizbah.dto.request.LoginRequest;
+import com.mizbah.dto.request.SignupRequest;
 import com.mizbah.service.interfaces.AuthService;
 
 import lombok.AllArgsConstructor;

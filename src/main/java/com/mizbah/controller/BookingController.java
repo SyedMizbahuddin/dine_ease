@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mizbah.dto.BookingDto;
+import com.mizbah.dto.request.BookingRequest;
 import com.mizbah.entity.User;
 import com.mizbah.service.interfaces.BookingService;
 
@@ -35,7 +36,7 @@ public class BookingController {
 
 	@PostMapping("/{branch_table_id}")
 	ResponseEntity<BookingDto> bookTable(@PathVariable("branch_table_id") long branchTableId,
-			@Valid @RequestBody BookingDto bookingRequest,
+			@Valid @RequestBody BookingRequest bookingRequest,
 			Authentication authentication) {
 		User user = (User) authentication.getPrincipal();
 		return ResponseEntity.ok(bookingService.bookTable(branchTableId, bookingRequest, user));

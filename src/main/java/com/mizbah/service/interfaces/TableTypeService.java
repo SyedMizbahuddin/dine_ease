@@ -3,6 +3,7 @@ package com.mizbah.service.interfaces;
 import java.util.List;
 
 import com.mizbah.dto.TableTypeDto;
+import com.mizbah.dto.request.TableTypeRequest;
 
 public interface TableTypeService {
 
@@ -10,9 +11,9 @@ public interface TableTypeService {
 
 	TableTypeDto getTableTypeById(long id);
 
-	TableTypeDto createTableType(TableTypeDto tableType);
+	TableTypeDto createTableType(TableTypeRequest tableType);
 
-	TableTypeDto updateTableType(long id, TableTypeDto tableType);
+	TableTypeDto updateTableType(long id, TableTypeRequest tableType);
 
 	void deleteTableType(long id);
 

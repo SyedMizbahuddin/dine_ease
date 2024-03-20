@@ -1,7 +1,6 @@
-package com.mizbah.dto;
+package com.mizbah.dto.request;
 
-import com.mizbah.dto.request.RestaurantRequest;
-
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,8 +10,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class RestaurantDto extends RestaurantRequest {
+public class CityRequest {
 
-	private Long id;
-
+	@NotBlank(message = "City cannot be not blank")
+	private String city;
 }

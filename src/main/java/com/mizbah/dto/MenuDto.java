@@ -1,18 +1,19 @@
 package com.mizbah.dto;
 
+import com.mizbah.dto.request.MenuRequest;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class MenuDto {
+public class MenuDto extends MenuRequest {
 
 	private Long id;
-	private int price;
 	private DishDto dish;
 	private FoodCategoryDto foodCategory;
 }

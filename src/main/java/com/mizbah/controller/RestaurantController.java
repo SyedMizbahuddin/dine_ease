@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mizbah.dto.RestaurantDto;
+import com.mizbah.dto.request.RestaurantRequest;
 import com.mizbah.entity.User;
 import com.mizbah.service.interfaces.RestaurantService;
 
@@ -45,7 +46,7 @@ public class RestaurantController {
 	}
 
 	@PostMapping
-	ResponseEntity<RestaurantDto> createRestaurant(@Validated @RequestBody RestaurantDto restaurant,
+	ResponseEntity<RestaurantDto> createRestaurant(@Validated @RequestBody RestaurantRequest restaurant,
 			Authentication authentication) {
 		User user = (User) authentication.getPrincipal();
 
@@ -54,7 +55,7 @@ public class RestaurantController {
 
 	@PutMapping("/{id}")
 	ResponseEntity<RestaurantDto> updateRestaurant(@PathVariable("id") long id,
-			@Validated @RequestBody RestaurantDto restaurant) {
+			@Validated @RequestBody RestaurantRequest restaurant) {
 		return ResponseEntity.ok(restaurantService.updateRestaurant(id, restaurant));
 	}
 

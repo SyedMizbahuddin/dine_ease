@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mizbah.dto.TableTypeDto;
+import com.mizbah.dto.request.TableTypeRequest;
 import com.mizbah.service.interfaces.TableTypeService;
 
 import lombok.AllArgsConstructor;
@@ -37,13 +38,13 @@ public class TableTypeController {
 	}
 
 	@PostMapping
-	ResponseEntity<TableTypeDto> createTableType(@Validated @RequestBody TableTypeDto tableType) {
+	ResponseEntity<TableTypeDto> createTableType(@Validated @RequestBody TableTypeRequest tableType) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(tableTypeService.createTableType(tableType));
 	}
 
 	@PutMapping("/{id}")
 	ResponseEntity<TableTypeDto> updateTableType(@PathVariable("id") long id,
-			@Validated @RequestBody TableTypeDto tableType) {
+			@Validated @RequestBody TableTypeRequest tableType) {
 		return ResponseEntity.ok(tableTypeService.updateTableType(id, tableType));
 	}
 

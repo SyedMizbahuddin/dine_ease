@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mizbah.dto.DishDto;
+import com.mizbah.dto.request.DishRequest;
 import com.mizbah.service.interfaces.DishService;
 
 import lombok.AllArgsConstructor;
@@ -37,12 +38,12 @@ public class DishController {
 	}
 
 	@PostMapping
-	ResponseEntity<DishDto> createDish(@Validated @RequestBody DishDto dish) {
+	ResponseEntity<DishDto> createDish(@Validated @RequestBody DishRequest dish) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(dishService.createDish(dish));
 	}
 
 	@PutMapping("/{id}")
-	ResponseEntity<DishDto> updateDish(@PathVariable("id") long id, @Validated @RequestBody DishDto dish) {
+	ResponseEntity<DishDto> updateDish(@PathVariable("id") long id, @Validated @RequestBody DishRequest dish) {
 		return ResponseEntity.ok(dishService.updateDish(id, dish));
 	}
 

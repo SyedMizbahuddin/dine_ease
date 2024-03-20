@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mizbah.adapter.RestaurantAdapter;
 import com.mizbah.dto.RestaurantDto;
+import com.mizbah.dto.request.RestaurantRequest;
 import com.mizbah.entity.Restaurant;
 import com.mizbah.entity.User;
 import com.mizbah.repository.RestaurantRepository;
@@ -47,9 +48,11 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-	public RestaurantDto createRestaurant(RestaurantDto restaurantRequest, User owner) {
+	public RestaurantDto createRestaurant(RestaurantRequest restaurantRequest, User owner) {
 
-		Restaurant restaurant = restaurantAdapter.toEntity(restaurantRequest);
+		Restaurant restaurant = new Restaurant();
+		restaurant.setName(restaurantRequest.getName());
+		restaurant.setImage(restaurantRequest.getImage());
 		restaurant.setOwner(owner);
 
 		restaurantRepository.save(restaurant);
@@ -59,14 +62,13 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 	@Override
 	@Transactional
-	public RestaurantDto updateRestaurant(long id, RestaurantDto restaurantRequest) {
+	public RestaurantDto updateRestaurant(long id, RestaurantRequest restaurantRequest) {
 
 		Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(
 				"Restaurant not found with ID: " + id));
 
-		// No Owner change allowed
 		restaurant.setName(restaurantRequest.getName());
-		restaurant.setId(id);
+		restaurant.setImage(restaurantRequest.getImage());
 
 		restaurant = restaurantRepository.save(restaurant);
 

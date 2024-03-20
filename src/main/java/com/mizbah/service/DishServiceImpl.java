@@ -8,9 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mizbah.adapter.DishAdapter;
 import com.mizbah.dto.DishDto;
+import com.mizbah.dto.request.DishRequest;
 import com.mizbah.entity.Dish;
 import com.mizbah.entity.FoodCategory;
-import com.mizbah.exception.DependencyException;
 import com.mizbah.repository.DishRepository;
 import com.mizbah.repository.FoodCategoryRepository;
 import com.mizbah.service.interfaces.DishService;
@@ -43,16 +43,15 @@ public class DishServiceImpl implements DishService {
 	}
 
 	@Override
-	public DishDto createDish(DishDto dishRequest) {
+	public DishDto createDish(DishRequest dishRequest) {
 
-		Optional<FoodCategory> foodCategory = foodCategoryRepository.findById(dishRequest.getCategoryId());
+		FoodCategory foodCategory = foodCategoryRepository.findById(dishRequest.getCategoryId()).orElseThrow(
+				() -> new EntityNotFoundException(
+						"FoodCategory not found with ID: " + dishRequest.getCategoryId()));
 
-		if (foodCategory.isEmpty()) {
-			throw new DependencyException("Food category not found with Id: " + dishRequest.getCategoryId());
-		}
-
-		Dish dish = dishAdapter.toEntity(dishRequest);
-		dish.setCategory(foodCategory.get());
+		Dish dish = new Dish();
+		dish.setCategory(foodCategory);
+		dish.setName(dishRequest.getName());
 
 		dishRepository.save(dish);
 
@@ -61,21 +60,18 @@ public class DishServiceImpl implements DishService {
 
 	@Transactional
 	@Override
-	public DishDto updateDish(long id, DishDto dishRequest) {
+	public DishDto updateDish(long id, DishRequest dishRequest) {
 
-		if (!dishRepository.existsById(id)) {
-			throw new EntityNotFoundException("Dish not found with ID: " + id);
-		}
+		Dish dish = dishRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(
+						"Dish not found with ID: " + id));
 
-		Optional<FoodCategory> foodCategory = foodCategoryRepository.findById(dishRequest.getCategoryId());
+		FoodCategory foodCategory = foodCategoryRepository.findById(dishRequest.getCategoryId())
+				.orElseThrow(() -> new EntityNotFoundException(
+						"FoodCategory not found with ID: " + dishRequest.getCategoryId()));
 
-		if (foodCategory.isEmpty()) {
-			throw new DependencyException("Food category not found with Id: " + dishRequest.getCategoryId());
-		}
-
-		Dish dish = dishAdapter.toEntity(dishRequest);
-		dish.setCategory(foodCategory.get());
-		dish.setId(id);
+		dish.setCategory(foodCategory);
+		dish.setName(dishRequest.getName());
 
 		dishRepository.save(dish);
 

@@ -78,12 +78,16 @@ Learning:
 	10. Optimizing queries
 		1. JOIN FETCH
 		2. Fetch.LAZY
-	11. Annotation based validation
+	11. Custom Annotation based validation
 	12. Delete CASCADE 
 		food -> dish -> menu
 		restaurant -> branch   \
 		city -> branch ---------> branch_tables -> bookings
 		table_type ------------/
+	13. Separate DTO for request with Validations
+	14. Pick user from Authentication, do not pass Id
+	15. Implement UserDetails with our entity for using Id
+	16. 
 	
 		
 Solving Booking:

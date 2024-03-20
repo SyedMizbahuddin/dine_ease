@@ -34,6 +34,11 @@ public class BookingController {
 		return ResponseEntity.ok(bookingService.getBookings(user));
 	}
 
+	@GetMapping("/restaurants/{restaurant_id}")
+	ResponseEntity<List<BookingDto>> getBookingsByRestaurantId(@PathVariable("restaurant_id") long restaurantId) {
+		return ResponseEntity.ok(bookingService.getBookingsByRestaurantId(restaurantId));
+	}
+
 	@PostMapping("/{branch_table_id}")
 	ResponseEntity<BookingDto> bookTable(@PathVariable("branch_table_id") long branchTableId,
 			@Valid @RequestBody BookingRequest bookingRequest,

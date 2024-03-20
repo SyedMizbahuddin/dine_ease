@@ -14,4 +14,6 @@ public interface BookingService {
 
 	List<BookingDto> getBookings(User customer);
 
+	List<BookingDto> getBookingsByRestaurantId(long restaurantId);
+
 }

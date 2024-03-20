@@ -38,6 +38,12 @@ public class BookingServiceImpl implements BookingService {
 		return bookingAdapter.toDto(bookings);
 	}
 
+	@Override
+	public List<BookingDto> getBookingsByRestaurantId(long restaurantId) {
+		List<Booking> bookings = bookingRepository.findByRestaurantId(restaurantId);
+		return bookingAdapter.toDto(bookings);
+	}
+
 	@Transactional
 	@Override
 	public BookingDto bookTable(long branchTableId, BookingRequest bookingRequest, User customer) {
@@ -50,7 +56,7 @@ public class BookingServiceImpl implements BookingService {
 				() -> new EntityNotFoundException("Branch table not found with Id: " + branchTableId));
 
 		Booking booking = new Booking();
-		Date start = booking.getStartDateTime();
+		Date start = bookingRequest.getStartDateTime();
 		Date end = DateUtils.addHours(start, 1);
 
 		booking.setEndDateTime(end);

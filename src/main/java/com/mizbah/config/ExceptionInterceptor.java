@@ -132,6 +132,7 @@ public class ExceptionInterceptor {
 	public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException e) {
 
 		log.error("Got Exception");
+		e.printStackTrace();
 
 		ErrorResponse error = new ErrorResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.INTERNAL_SERVER_ERROR);

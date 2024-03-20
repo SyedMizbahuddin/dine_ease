@@ -51,6 +51,10 @@ public class SecurityConfig {
 		String[] customer_url = {
 				"/api/v1/bookings/**",
 		};
+
+		String[] booking_mangement_url = {
+				"/api/v1/bookings/restaurants/**",
+		};
 		http.csrf(csrf -> csrf.disable());
 
 		http.authorizeHttpRequests(auth -> auth
@@ -68,6 +72,8 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.DELETE, owner_url).hasRole(UserRole.OWNER.name())
 				.requestMatchers(HttpMethod.POST, customer_url).hasRole(UserRole.CUSTOMER.name())
 				.requestMatchers(HttpMethod.DELETE, customer_url).hasRole(UserRole.CUSTOMER.name())
+				.requestMatchers(HttpMethod.GET, booking_mangement_url).hasAnyRole(UserRole.OWNER.name(), UserRole.ADMIN
+						.name())
 				.anyRequest()
 				.authenticated());
 

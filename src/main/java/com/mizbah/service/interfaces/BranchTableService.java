@@ -10,4 +10,6 @@ public interface BranchTableService {
 
 	List<BranchTableDto> getTablesByBranchId(long branchId);
 
+	void deleteTable(long branchTableId);
+
 }

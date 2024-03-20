@@ -59,4 +59,13 @@ public class BranchTableServiceImpl implements BranchTableService {
 		return branchTableAdapter.toDto(tables);
 	}
 
+	@Override
+	public void deleteTable(long branchTableId) {
+		if (!branchTableRepository.existsById(branchTableId)) {
+			throw new EntityNotFoundException("Branch table not found with ID: " + branchTableId);
+		}
+		branchTableRepository.deleteById(branchTableId);
+
+	}
+
 }

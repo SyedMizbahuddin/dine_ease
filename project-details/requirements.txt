@@ -14,8 +14,6 @@
 	1. Search restaurant by city
 	2. Search restaurant by name
 	3. Search restaurant by food
-	4. Show available table by time
-	5. Show available table by table type?
 	4. Book table at a restaurant date and start time
 	5. Cancel booking
 	
@@ -28,22 +26,16 @@
 	6. Add Dishes
 	7. Add table
 
-5. Assumptions
-	1. Each slot is for 1 hour? Yes
-	2. Can book for only T + 1 day? Yes
-	3. One owner per restaurant? Yes
-	4. Owner has multiple Restaurants? Yes
-	5. User has Multiple roles? Yes
-	6. Different Menu at each branch? No
-	7. Availability at table level? No
-	8. Removal supported? Yes
-	9. Restaurant has multiple branches in a city? No
-	10. An owner of an restaurant cannot update details of other restaurant? Obviously
-	11. Image or Blob?
+5. Assumptions for simplicity
+	1. Each slot is for 1 hour
+	2. Can book for any day
+	3. One owner per restaurant
+	4. Same menu at each branch
+	5. Restaurant has one branch in a city? No
 
 6. Design changes
 	1. Existing: branch tables - count, bookings - has Id
-		To check available count - no. of bookings, concurrent bookings as booking is inserted, phantom read problem arises and cant be solved
+		To check available count - no. of bookings, concurrent bookings as booking is inserted, phantom read problem arises and can't be solved
 		without Isolation.SERIALIZABLE which is in efficient
 
 
@@ -54,41 +46,37 @@
 	4. Spring Data JPA
 	5. Spring security
 	6. Unit test cases
-	7. Authorization: An owner cannot update details of other restaurant
+	7. Authorization (RBAC, ABAC)
 	8. Documentation
 
 7. Future Enhancements
-	1. Spring AOP
-	2. Caching
-	3. Data JPA Auditing
+	1. Caching
 
 Learning:
-	1. Normalization multiple branches for restaurant using xNF
-	2. Normalization Menu to avoid multiple names
-	3. Designing DB
-	4. With Spring Security permit /error page to avoid 403 for every error
-	5. ControllerAdvice handles exception after filter, errors before filter to be handled by 
+	1. Normalization branches, menu, tables 
+	2. With Spring Security permit /error page to avoid 403 for every error
+	3. ControllerAdvice handles exception after filter, errors before filter to be handled by 
 		first filter and map to resolver, also handle RuntimeException
-	6. JOIN FETCH to avoid N + 1
-	7. Data JPA updates all fields by default fetch and update
-	8. Role Based Access Control
-	9. Adding @Transactional to update/delete methods only along with @Version
+	4. JOIN FETCH to avoid N + 1
+	5. Data JPA updates all fields by default fetch and update
+	6. Role Based Access Control
+	7. Adding @Transactional to update/delete methods only along with @Version
 		for optimistic locking, as very less updates are expected. Not required for
 		Create methods as DB handles duplicate creation based on unique constraints.
-	10. Optimizing queries
+	8. Optimizing queries
 		1. JOIN FETCH
 		2. Fetch.LAZY
-	11. Custom Annotation based validation
-	12. Delete CASCADE 
+	9. Custom Annotation based validation
+	10. Delete CASCADE 
 		food -> dish -> menu
 		restaurant -> branch   \
 		city -> branch ---------> branch_tables -> bookings
 		table_type ------------/
-	13. Separate DTO for request with Validations
-	14. Pick user from Authentication, do not pass Id
-	15. Implement UserDetails with our entity for using Id
-	16. Event Listeners to notify User on deletion of booking PostRemove 
-	17. Attribute Based Access Control - PermissionEvaluator
+	11. Separate DTO for request with Validations
+	12. Pick user from Authentication, do not pass Id
+	13. Implement UserDetails with our entity for using Id
+	14. Event Listeners to notify User on deletion of booking PostRemove 
+	15. Attribute Based Access Control - PermissionEvaluator
 		DefaultEvaluator -> DenyAllPE
 		Create Bean of DefaultMethodSecurityHandler and set PE to CustomPE
 		ABAC on Restaurant, Branch, Branch table, Booking
@@ -185,7 +173,7 @@ Concurrency:
 			 3. + No locks, so no waiting
 			 4. + No silent lost/ over ride
 			 5. + No dead locks
-			 4. - Many rollbacks
+			 6. - Many rollbacks
 			 
 			 Suitable:
 			 1. Where less updates/ deletes

@@ -31,7 +31,7 @@
 	2. Can book for any day
 	3. One owner per restaurant
 	4. Same menu at each branch
-	5. Restaurant has one branch in a city? No
+	5. Restaurant has one branch in a city
 
 6. Design changes
 	1. Existing: branch tables - count, bookings - has Id

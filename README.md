@@ -95,9 +95,13 @@ Postman > import > drop the file
     2. Git commit
     3. SQL ng)
     4. Spring Data JPA 
-    5. Spring security 
-    6. Authorization (RBAC, ABAC)
-    7. Documentation
+    5. Spring Security 
+    6. Authorization RBAC
+    7. Authorization custom ABAC 
+    8. Documentation
+    9. Exception Handling
+    10. custom Validation 
+    
 
 
 #### Learning:
